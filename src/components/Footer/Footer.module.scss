@@ -1,0 +1,15 @@
+.Footer .icon {
+    font-size: 2rem;
+    color: deepskyblue;
+    margin-left: 1rem;
+}
+
+@media (min-width: 1000px){
+    .Footer .icon {
+        font-size: 2.5rem;
+    }
+
+    .Footer .iconGroup {
+        margin-right: 1.2rem;
+    }
+}

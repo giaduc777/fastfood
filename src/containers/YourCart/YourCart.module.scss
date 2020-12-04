@@ -1,0 +1,48 @@
+.YourCart_topContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .image {
+      width: 5.2rem;
+      height: 5.2rem;
+      border-radius: 3px;
+    }
+
+    .nameAndPrice {
+      display: flex;
+      justify-content: space-between;
+    }
+}
+
+.YourCart_checkOut {
+    display: flex;
+    justify-content: center;
+
+    .pillButton {
+      font-size: 1.5rem;
+      margin-right: .8rem;
+    }
+}
+
+.YourCart_counterBox {
+    font-size: 1.2rem;
+
+    .box_size {
+      width: 1.5rem;
+      height: 1.5rem;  
+    }
+}
+
+@media (max-width: 580px){
+  .YourCart_topContainer .nameAndPrice {
+      flex-direction: column;
+      height: 60px;
+  }
+}
+
+@media (max-width: 580px){
+  .YourCart_checkOut {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,34 @@
+.ReviewOrder .image {
+  width: 5rem;
+  height: 5rem;
+}
+
+.ReviewOrder .item{
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  width: 100%;
+  min-height: 15%;
+}
+
+.ReviewOrder .button {
+  display: flex;
+  justify-content: space-around;
+  min-width: 20%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.ReviewOrder .placeYourOrder{
+   text-decoration: none;
+   font-size: 16px;
+   color: white;
+   font-weight: bold;
+   background-color: rgb(231, 36, 36);
+   min-width: 20px;
+   padding: 5px 17px 5px 17px;
+   min-height: 10px;
+   border-radius: 4px;
+}
+
+

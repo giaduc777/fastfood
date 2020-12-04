@@ -1,0 +1,105 @@
+.CheckOut {
+    .contact {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        min-height: 30%;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+
+        label {
+            margin-bottom: 5px;
+        }
+        
+        input {
+            margin-bottom: 10px;
+            height: 24px;
+            border-radius: 5px;
+        }
+        
+    }
+
+    .carryoutAddress {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        min-height: 20%;
+        line-height: 6px;
+    }
+
+    .billing {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        min-height: 30%;
+
+        .dropdown {
+            display: flex;
+            width: 100%;
+
+            .month {
+                width: 60%;
+                margin-top: 15px;
+
+                select {
+                    width: 90%;
+                    font-size: 20px;
+                    border-radius: 5px;
+                    padding: 5px 5px;
+                    margin-top: 5px;
+                }
+            }
+
+            .year {
+                width: 40%;
+                margin-top: 15px;
+
+                select {
+                    width: 100%;
+                    font-size: 20px;
+                    border-radius: 5px;
+                    padding: 5px 5px;
+                    margin-top: 5px;
+                }
+            }
+        }
+    }
+
+    .button {
+        display: flex;
+        justify-content: space-around;
+        min-width: 20%;
+        padding-top: 30px;
+        padding-bottom: 10%;
+
+        .reviewOrder{
+            text-decoration: none;
+            font-size: 16px;
+            color: white;
+            font-weight: bold;
+            background-color: rgb(231, 36, 36);
+            min-width: 20px;
+            padding: 5px 17px 5px 17px;
+            min-height: 10px;
+            border-radius: 4px;
+       }
+    }
+}
+
+
+
+
+
+ 
+ 
+ 

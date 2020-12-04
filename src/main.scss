@@ -1,0 +1,26 @@
+$theme-colors: () !default;
+$theme-colors: map-merge(
+  (
+    "sunsetOrange": rgb(243, 132, 52),
+    "vanilla":  rgb(255, 255, 255),
+    "vanilla2":  rgb(229, 226, 226),
+    "deepSky":  deepskyblue,
+    "footerColor": rgb(32, 34, 34),
+    "background": rgb(211, 195, 169)
+  ),
+  $theme-colors
+);
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 567px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+@import './Global/global.scss';
+@import './genericClasses.scss'; 
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+

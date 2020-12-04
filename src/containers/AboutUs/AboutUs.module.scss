@@ -1,0 +1,35 @@
+.AboutUs{
+    width: 85%;
+    margin: auto;
+    margin-top: 55px;
+
+    .frame{
+      width: 85%;
+      background-color: rgb(65, 40, 2);
+      opacity: .8;
+      color: white;
+      font-weight: bolder;
+      font-style: italic;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+}
+
+@media (max-width: 825px){
+  .AboutUs .frame {
+      width: 100%;
+      margin: auto;
+  }
+}
+
+@media (min-width: 826px){
+  .AboutUs .frame{
+      width: 45%;
+      margin: auto;
+  }
+}
+
+@media (min-width: 700px){
+  .AboutUs .frame{
+      width: 65%;
+  }
+}

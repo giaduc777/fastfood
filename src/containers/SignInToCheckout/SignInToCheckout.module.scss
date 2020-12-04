@@ -1,0 +1,65 @@
+.SigninToCheckout {
+    .top {
+        padding: 30px 30px;
+        width: 90%;
+        min-height: 33%;
+
+        .createAccount{
+           text-align: center;
+           text-decoration: none;
+           font-weight: bold;
+           background-color: rgb(231, 36, 36);
+           min-width: 10%;
+           padding: 8px 17px 8px 17px;
+           min-height: 10px;
+           border-radius: 4px;
+       }
+
+        p {
+          margin-bottom: 25px;
+        }
+    }
+
+    .bottom {
+        padding: 30px 30px;
+        width: 90%;
+        min-height: 33%;
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 35px;
+            width: 90%;
+
+            label {
+                margin-bottom: 5px;
+            }
+            
+            input {
+                margin-bottom: 10px;
+                height: 24px;
+                border-radius: 5px;
+            }
+
+            .signInButton {
+                display: flex;
+                justify-content: space-between;
+                text-decoration: none;
+                font-size: 16px;
+                color: white;
+                font-weight: bold;
+                background-color: rgb(231, 36, 36);
+                width: 100px;
+                padding: 8px 17px 8px 17px;
+                min-height: 10px;
+                border-radius: 4px;
+                margin-bottom: 55px;
+             }
+        }
+    }
+}
+
+
+
+
+

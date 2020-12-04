@@ -1,0 +1,28 @@
+.Deals{
+  display: flex;
+  width: 95%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background-color: rgb(224, 221, 206);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Deals_happyHours{
+  display: flex;
+  width: 95%;
+  padding-bottom: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background-color: rgb(224, 221, 206);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 1430px){
+  .Deals_happyHours {
+     justify-content: center;
+  }
+}
