@@ -27,10 +27,10 @@ class SignInToCheckout extends Component{
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-        myURL = ADDRESS + '/api/placeOrder';
+        myURL = ADDRESS + '/api/signIn';
         }
         else {
-            myURL = '/api/placeOrder';
+            myURL = '/api/signIn';
         }
   
           try{

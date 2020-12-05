@@ -60,10 +60,10 @@ class App extends Component {
       let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-        myURL = ADDRESS + '/api/placeOrder';
+        myURL = ADDRESS + '/api/user';
         }
         else {
-            myURL = '/api/placeOrder';
+            myURL = '/api/user';
         }
 
       const user = await axios.post(myURL, {token: localStorage.getItem("token")});

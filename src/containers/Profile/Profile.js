@@ -25,10 +25,10 @@ class Profile extends Component{
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-        myURL = ADDRESS + '/api/placeOrder';
+        myURL = ADDRESS + '/api/profile';
         }
         else {
-            myURL = '/api/placeOrder';
+            myURL = '/api/profile';
         }
 
         const tempToken = localStorage.getItem("token");

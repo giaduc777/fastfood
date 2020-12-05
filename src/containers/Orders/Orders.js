@@ -21,10 +21,10 @@ class Orders extends Component{
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-        myURL = ADDRESS + '/api/placeOrder';
+        myURL = ADDRESS + '/api/orders';
         }
         else {
-            myURL = '/api/placeOrder';
+            myURL = '/api/orders';
         }
         
         let tempOrders = []
