@@ -8,7 +8,7 @@ const Guess = require('./models/Guess');
 const authen = require('./authen');
 var nodemailer = require('nodemailer');
 const validator = require('validator');
-const port = process.env.port || 8080
+const port = process.env.PORT || 8080
 const emailPassword = require('./config/emailPassword');
 console.log(">>>>>>>>>>>>.",emailPassword.password)
 require('./mongoose');
