@@ -57,12 +57,14 @@ class App extends Component {
     //localStorage.clear();
     try{
 
-      if( process.env.NODE_ENV === 'production'){
-        let myURL = ADDRESS + '/api/user';
-      }
-      else {
-          let myURL = '/api/user';
-      }
+      let myURL;
+
+        if( process.env.NODE_ENV === 'production'){
+        myURL = ADDRESS + '/api/placeOrder';
+        }
+        else {
+            myURL = '/api/placeOrder';
+        }
 
       const user = await axios.post(myURL, {token: localStorage.getItem("token")});
       

@@ -18,11 +18,13 @@ class Orders extends Component{
 
     retrieveOrders = async () => {
 
+        let myURL;
+
         if( process.env.NODE_ENV === 'production'){
-            let myURL = ADDRESS + '/api/orders';
+        myURL = ADDRESS + '/api/placeOrder';
         }
         else {
-            let myURL = '/api/orders';
+            myURL = '/api/placeOrder';
         }
         
         let tempOrders = []

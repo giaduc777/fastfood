@@ -37,15 +37,17 @@ class CreateAccount extends Component {
     }
 
     handleSubmit = async (e) => {
-      e.preventDefault()
+        e.preventDefault()
 
-      if( process.env.NODE_ENV === 'production'){
-            let myURL = ADDRESS + '/api/createUser';
-      }
-      else {
-        let myURL = '/api/createUser';
-      }
-      
+        let myURL;
+
+        if( process.env.NODE_ENV === 'production'){
+        myURL = ADDRESS + '/api/placeOrder';
+        }
+        else {
+            myURL = '/api/placeOrder';
+        }
+        
         try{
             //console.log("im create account....", process.env.NODE_ENV)
             //if you try to create duplicate User, token.data will equal to ""

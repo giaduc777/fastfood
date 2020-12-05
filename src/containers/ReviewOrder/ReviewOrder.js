@@ -9,12 +9,13 @@ import styles from './ReviewOrder.module.scss';
 class ReviewOrder extends Component{
 
     placeOrder = async () => {
+        let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-            let myURL = ADDRESS + '/api/placeOrder';
+            myURL = ADDRESS + '/api/placeOrder';
         }
         else {
-            let myURL = '/api/placeOrder';
+            myURL = '/api/placeOrder';
         }
 
         this.props.setLoading(true)

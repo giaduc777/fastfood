@@ -22,11 +22,13 @@ class MemberRewards extends Component{
 
     getProfile = async () => {
         
+        let myURL;
+
         if( process.env.NODE_ENV === 'production'){
-            let myURL = ADDRESS + '/api/profile';
+        myURL = ADDRESS + '/api/placeOrder';
         }
         else {
-            let myURL = '/api/profile';
+            myURL = '/api/placeOrder';
         }
      
         const tempToken = localStorage.getItem("token");

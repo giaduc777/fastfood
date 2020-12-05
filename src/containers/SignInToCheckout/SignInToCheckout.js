@@ -24,11 +24,13 @@ class SignInToCheckout extends Component{
     handleSubmit = async (e) => {
         e.preventDefault()
 
+        let myURL;
+
         if( process.env.NODE_ENV === 'production'){
-            let myURL = ADDRESS + '/api/signIn';
+        myURL = ADDRESS + '/api/placeOrder';
         }
         else {
-            let myURL = '/api/signIn';
+            myURL = '/api/placeOrder';
         }
   
           try{
