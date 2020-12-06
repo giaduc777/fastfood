@@ -5,6 +5,8 @@ import {withRouter} from 'react-router-dom';
 import Axios from 'axios';
 import {ADDRESS} from '../../herokuProxy';
 import styles from './Orders.module.scss';
+import RequestError from '../../components/Alerts/RequestError/RequestError';
+import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 
 class Orders extends Component{
 
@@ -13,7 +15,13 @@ class Orders extends Component{
     }
 
     state = {
-        orders: []
+        orders: [],
+        requestError: false,
+        errorMessage: ""
+    }
+
+    resetRequestError = () => {
+        this.setState({requestError: false})
     }
 
     retrieveOrders = async () => {
@@ -21,7 +29,7 @@ class Orders extends Component{
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-        myURL = ADDRESS + '/api/orders';
+            myURL = ADDRESS + '/api/orders';
         }
         else {
             myURL = '/api/orders';
@@ -42,7 +50,8 @@ class Orders extends Component{
             this.setState({orders: tempOrders})
         }
          catch(err){
-            console.log(err)
+            console.log("From catch block", err);
+            this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
         }
     }
 
@@ -73,6 +82,16 @@ class Orders extends Component{
 
         let Contents = null;
         let ordersHistory;
+        let requestError;
+
+        if(this.state.requestError){
+            requestError = (
+                <div className={`d-flex justify-content-center`}>
+                    <Backdrop />
+                    <RequestError resetRequestError={this.resetRequestError} errorMessage={this.state.errorMessage} />
+                </div>
+            )
+        }
 
         if(this.loadOrders().length === 0){
             ordersHistory = (
@@ -91,6 +110,7 @@ class Orders extends Component{
 
             Contents = (
                 <div className={`${styles.Orders}`}>
+                    {requestError}
                     <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                         <button className={`${styles.iconColor} navbar-toggler border`} type="button" data-toggle="collapse" data-target="#navbarNav">
                             <span className={"fa fa-bars"}></span>

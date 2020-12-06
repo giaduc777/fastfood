@@ -9,6 +9,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+    
       if(action.type === 'SET-TOKEN'){
           return{
               ...state,

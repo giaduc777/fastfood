@@ -9,6 +9,9 @@ import mediumCombination from '../../asset/rewards_200_compress/mediumCombinatio
 import {ADDRESS} from '../../herokuProxy';
 import Axios from 'axios';
 import styles from './MemberRewards.module.scss';
+import RequestError from '../../components/Alerts/RequestError/RequestError';
+import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
+
 
 class MemberRewards extends Component{
 
@@ -17,7 +20,13 @@ class MemberRewards extends Component{
     }
 
     state = {
-        rewardPoints: ''
+        rewardPoints: "",
+        requestError: false,
+        errorMessage: ""
+    }
+
+    resetRequestError = () => {
+        this.setState({requestError: false})
     }
 
     getProfile = async () => {
@@ -25,7 +34,7 @@ class MemberRewards extends Component{
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-        myURL = ADDRESS + '/api/profile';
+            myURL = ADDRESS + '/api/profile';
         }
         else {
             myURL = '/api/profile';
@@ -37,21 +46,32 @@ class MemberRewards extends Component{
             const profile = await Axios.post(myURL, {
                 token: tempToken
             }); 
-             //console.log("+++++++++",profile.data.rewardPoints)
+             
             this.setState({rewardPoints: profile.data.rewardPoints})
         }
          catch(err){
-            //will implement later
-            //the error is throw from the backend
+            console.log("from catch block", err);
+            this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
         }
     }
 
     render(){
         let Contents = null;
+        let requestError;
+
+        if(this.state.requestError){
+            requestError = (
+                <div className={`d-flex justify-content-center`}>
+                    <Backdrop />
+                    <RequestError resetRequestError={this.resetRequestError} errorMessage={this.state.errorMessage} />
+                </div>
+            )
+        }
   
         if(localStorage.getItem('token') !== null){
             Contents = (
             <div className={`${styles.MemberRewards}`}>
+                {requestError}
                 <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                     <button className={`${styles.iconColor} navbar-toggler border`} type="button" data-toggle="collapse" data-target="#navbarNav">
                         <span className={"fa fa-bars"}></span>

@@ -33,7 +33,7 @@ class Layout extends Component{
       this.props.resetToken();
       this.props.logout();
       
-      //this will reset the itemsInCart state of App.js
+      // ** this will reset the itemsInCart state of App.js ** //
       this.props.resetItemsInCart();
     }
 

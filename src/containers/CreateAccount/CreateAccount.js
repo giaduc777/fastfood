@@ -4,6 +4,8 @@ import {ADDRESS} from '../../herokuProxy';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+import RequestError from '../../components/Alerts/RequestError/RequestError';
+import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 
 class CreateAccount extends Component {
 
@@ -26,7 +28,13 @@ class CreateAccount extends Component {
         Email: '',
         Phone: '',
         Password: '',
-        button1: false
+        button1: false,
+        requestError: false,
+        errorMessage: ""
+    }
+
+    resetRequestError = () => {
+        this.setState({requestError: false})
     }
 
     handleChange = (e) => {
@@ -42,15 +50,14 @@ class CreateAccount extends Component {
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-        myURL = ADDRESS + '/api/createUser';
+            myURL = ADDRESS + '/api/createUser';
         }
         else {
             myURL = '/api/createUser';
         }
         
         try{
-            //console.log("im create account....", process.env.NODE_ENV)
-            //if you try to create duplicate User, token.data will equal to ""
+            // ** if you try to create duplicate User, token.data will equal to "" ** //
             const user = await Axios.post(myURL,{
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
@@ -61,30 +68,42 @@ class CreateAccount extends Component {
             });
 
             if(user.data.token === ""){
-                alert("Duplicate Email account !");
+                this.setState({requestError: true, errorMessage: "Sorry, this Email address is already taken!"});
             }
             else if(user.data.email){
                 this.props.setToken(user.data.token);
                 this.props.setUser(user.data.firstName)
 
-                //login is from App()
+                // ** login is from App() **//
                 this.props.login();
 
                 this.props.history.push('/');
             }
             else if(!user.data.email){
-                alert("Wrong Email format !");
+                this.setState({requestError: true, errorMessage: "Sorry!, this Email format is invalid"});
             }
         }
         catch(err){
-            console.log("From CreateAccount(), handleSubmit()????????im hereee....",err)
-            //console.log("im hereee....")
+            console.log("from catch block", err);
+            this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
         }
     };
 
     render(){
+        let requestError;
+
+        if(this.state.requestError){
+            requestError = (
+                <div className={`d-flex justify-content-center`}>
+                    <Backdrop />
+                    <RequestError resetRequestError={this.resetRequestError} errorMessage={this.state.errorMessage} />
+                </div>
+            )
+        }
+
         return(
             <div className="container bg-background col-md-10 col-lg-8 col-xl-6 d-flex flex-column p-0 mt-5 genericClasses">
+                {requestError}
                 <div className="align-self-end"><Link to="/"><span className="badge  x-button">X</span></Link></div>
                 <div className="CreateAccount p-5">
                     <div className="title">

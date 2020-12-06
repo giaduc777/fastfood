@@ -2,33 +2,20 @@ const bcrypt = require('bcryptjs');
 const express = require('express');
 const path = require('path');
 const app = express();
-//const cors = require('cors');
 const User = require('./models/User');
 const Guess = require('./models/Guess');
 const authen = require('./authen');
 var nodemailer = require('nodemailer');
 const validator = require('validator');
 const port = process.env.PORT || 8080
-const emailPassword = require('./config/emailPassword');
-console.log(">>>>>>>>>>>>.",emailPassword.password)
 require('./mongoose');
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));//
-
-/////////////////////////
-
-// the __dirname is the current directory from where the script is running
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'index.html')))
 
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'index.html'));
-});
-
-
-//Api endpoints
-
-//Sign in
+// ** Sign in ** //
 app.post('/api/signIn', async(req,res) => {
 	
 	try{
@@ -61,7 +48,7 @@ app.post('/api/signIn', async(req,res) => {
 	}
 });
 
-//Create new user
+// ** Create new user ** //
 app.post('/api/createUser', async(req,res) => {
 	console.log("9999999999999999")
     try{
@@ -90,30 +77,15 @@ console.log("before new User()")
 	}
 });
 
-//Load user on browser refresh
+// ** Load user on browser refresh ** //
 app.post('/api/user', authen, async (req, res) => {
 	res.send(req.user)
 });
 
-
-///////////////////
-app.get('/polo', authen, (req, res) => {
-  //if user is login
-	if(req.user){
-    try{
-  
-  res.send("polo is success")
-}
-catch(err){
-  console.log("/polo Error: ", err)
-}
-}
-});
-
-//Place order
+// ** Place order ** //
 app.post('/api/placeOrder', authen, async (req, res) => {
 	
-	//if user is login
+	// ** if user is login ** //
 	if(req.user){
         try{
 			req.user.orders = req.user.orders.concat({...req.body})
@@ -125,7 +97,7 @@ app.post('/api/placeOrder', authen, async (req, res) => {
 			console.log("/api/placeOrder Error: ", err)
 		}
 	}
-	//user is a guess
+	// ** user is a guess ** //
 	else if(req.body.login === false){
 		try{
 			const guess = new Guess({orders: req.body});
@@ -137,7 +109,8 @@ app.post('/api/placeOrder', authen, async (req, res) => {
 		}
 	}
 
-	//Send email confirmation
+	// ** Email confirmation no enable ** //
+	/*
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
@@ -159,10 +132,12 @@ app.post('/api/placeOrder', authen, async (req, res) => {
 		} else {
 		  console.log('Email sent: ' + info.response);
 		}
-	});
+	}); 
+	*/
 });
 
-//Profile
+
+// ** Profile ** //
 app.post('/api/profile', authen, async (req, res) => {
   console.log("/api/profile  begins...: ")
   console.log("/api/profile  req.user", req.user)
@@ -178,7 +153,7 @@ app.post('/api/profile', authen, async (req, res) => {
 	}
 })
 
-//Orders history
+// ** Orders history ** //
 app.post('/api/orders', authen, async (req, res) => {
 	
 	if(req.user){
@@ -202,14 +177,11 @@ app.post('/api/orders', authen, async (req, res) => {
 	}
 });
 
-//Handles any requests that don't match the ones above
+// ** Handles any requests that don't match the ones above ** //
 app.get('*', (req,res) =>{
 	res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
-
-////////////
-
 app.listen(port, () => {
-    console.log("running on port 8080")
+    console.log("running on port: ", port);
 });

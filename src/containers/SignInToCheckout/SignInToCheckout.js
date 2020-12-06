@@ -5,12 +5,20 @@ import {ADDRESS} from '../../herokuProxy';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import styles from './SignInToCheckout.module.scss';
+import RequestError from '../../components/Alerts/RequestError/RequestError';
+import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 
 class SignInToCheckout extends Component{
 
     state = {
         Email: '',
-        Password: ''
+        Password: '',
+        requestError: false,
+        errorMessage: ''
+    }
+
+    resetRequestError = () => {
+        this.setState({requestError: false})
     }
 
     handleChange = (e) => {
@@ -20,14 +28,13 @@ class SignInToCheckout extends Component{
         })
     };
 
-    //send Data to backend when user hit submit/////
     handleSubmit = async (e) => {
         e.preventDefault()
 
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-        myURL = ADDRESS + '/api/signIn';
+            myURL = ADDRESS + '/api/signIn';
         }
         else {
             myURL = '/api/signIn';
@@ -39,32 +46,43 @@ class SignInToCheckout extends Component{
                   password: this.state.Password
               });
         
-              //if user does not exist/////
              if(user.data === false){
-                 alert("Login denied !")
-                 this.props.history.push('/');
+                this.setState({requestError: true, errorMessage: "Sorry, invalid login !"});
              }
              else if(user.data === "mongoose connection error"){
-                 alert("Connection error, please try again !");
+                this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
              }
              else{
-                 //set token in redux
                 this.props.setToken(user.data.token);
                 this.props.setUser(user.data.firstName);
   
-                //set login state to true in App()
+                // ** set login state to true in App() ** //
                 this.props.login();
                 this.props.history.push('/checkout');
              }
           }
           catch(err){
-              console.log("Mongoose ERROR>>>>>>>", err)
+            console.log("From catch block", err);
+            this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
           }
       };
 
     render(){
+        let requestError;
+
+        if(this.state.requestError){
+            requestError = (
+                <div className={`d-flex justify-content-center`}>
+                    <Backdrop />
+                    <RequestError resetRequestError={this.resetRequestError} errorMessage={this.state.errorMessage} />
+                </div>
+            )
+        }
+
+
         return(     
                 <div class={`bg-background mt-5 mb-5 ml-auto mr-auto p-0 d-flex flex-column col-10 col-md-8 col-lg-6 ${styles.SigninToCheckout}`}>
+                    {requestError}
                     <div className="align-self-end genericClasses"><Link to="/"><span class="badge x-button">X</span></Link></div>
                     <div className={`${styles.top}`}>
                             <h1>Create an Account</h1>

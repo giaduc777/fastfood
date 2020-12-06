@@ -13,7 +13,7 @@ class sideMenu extends Component{
         this.props.resetToken();
         this.props.logout();
 
-        //this will reset the itemsInCart state of App.js
+        // ** this will reset the itemsInCart state of App.js ** //
         this.props.resetItemsInCart();
     }
 
@@ -23,7 +23,8 @@ class sideMenu extends Component{
         let signUp;
 
         if(this.props.login === true){
-            //localStorage.clear()
+            // ** enable this to reset the local database ** //
+            // ** localStorage.clear() ** //
             login = <a class="btn btn-sm mr-4 btn-primary text-white nav-link" onClick={()=>this.setLogout()}>Sign Out</a>
         }
         else if(this.props.login === false){

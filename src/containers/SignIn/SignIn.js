@@ -5,12 +5,21 @@ import {ADDRESS} from '../../herokuProxy';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import styles from './SignIn.module.scss';
+import RequestError from '../../components/Alerts/RequestError/RequestError';
+import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
+
 
 class SignIn extends Component{
 
     state = {
         Email: '',
-        Password: ''
+        Password: '',
+        requestError: false,
+        errorMessage: ''
+    }
+
+    resetRequestError = () => {
+        this.setState({requestError: false})
     }
 
     handleChange = (e) => {
@@ -20,14 +29,13 @@ class SignIn extends Component{
         })
     };
 
-    //send Data to backend when user hit submit/////
     handleSubmit = async (e) => {
         e.preventDefault()
 
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-        myURL = ADDRESS + '/api/signIn';
+            myURL = ADDRESS + '/api/signIn';
         }
         else {
             myURL = '/api/signIn';
@@ -39,28 +47,38 @@ class SignIn extends Component{
                   password: this.state.Password
               });
               
-             //send to redux/////
              if(user.data === false){
-                 alert("Login denied !")
-                 this.props.history.push('/');
+                this.setState({requestError: true, errorMessage: "Sorry, invalid login !"});
              }
              else{
-                //set token in redux
                 this.props.setToken(user.data.token);
                 this.props.setUser(user.data.firstName);
 
-                //set login state to true in App()
+                // ** set login state to true in App() ** //
                 this.props.login();
                 this.props.history.push('/');
              }
           }
           catch(err){
-              console.log(err)
+            console.log("From catch block", err);
+            this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
           }
       };
     render(){
+        let requestError;
+
+        if(this.state.requestError){
+            requestError = (
+                <div className={`d-flex justify-content-center`}>
+                    <Backdrop />
+                    <RequestError resetRequestError={this.resetRequestError} errorMessage={this.state.errorMessage} />
+                </div>
+            )
+        }
+
         return(
            <div className="container bg-background p-0 d-flex flex-column mt-5 genericClasses">
+               {requestError}
                 <div className="align-self-end"><Link to="/"><span className="badge x-button">X</span></Link></div>
                 <div className={`col-lg-9 m-auto ${styles.SignIn}`}>
                     <div className={`${styles.top}`}>

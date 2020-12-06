@@ -48,19 +48,19 @@ import rootbeerFloat from '../src/asset/menus_300_compress/rootbeerFloat_300.jpg
 class App extends Component {
   
   async componentDidMount(){
-    /*When component first mount, retrieve token from local storage
-      & authenticate with the back-end.(token either exist or its doesn't).
+    /* When component first mount, retrieve token from local storage
+      & authenticate with the server.(token either exist or its doesn't).
       This will only execute when new browser is open. If token doesn't 
       exist than user doesn't exist. */
 
-    //
-    //localStorage.clear();
+    // ** enable if local storage need to be reset ** //
+    // ** localStorage.clear(); ** //
     try{
 
       let myURL;
 
         if( process.env.NODE_ENV === 'production'){
-        myURL = ADDRESS + '/api/user';
+            myURL = ADDRESS + '/api/user';
         }
         else {
             myURL = '/api/user';
@@ -88,11 +88,12 @@ class App extends Component {
     }
   };
 
-  //When you sign in, SignIn.js will call the back-end to authenticate the
-  //username & password. If success, SignIn.js will store the token & userName
-  //to redux. App.js will store the token in local storage. The "token" name 
-  //should be unique, so it doesn't mix up with other local storage token.
-  async componentDidUpdate(){
+  /* When you sign in, SignIn.js will call the server to authenticate the
+     username & password. If success, SignIn.js will store the token & userName
+     to redux. App.js will store the token in local storage. The "token" name 
+     should be unique, so it doesn't mix up with other local storage token. */
+
+  componentDidUpdate(){
 
     if(this.props.token !== null){
       localStorage.setItem("token",this.props.token)
@@ -200,7 +201,7 @@ class App extends Component {
         },
       ],
 
-      /////////////daily menu//////////////////
+      // ** daily menu ** //
       [
         {
           name: "Slice of vegan pizza",
@@ -348,7 +349,7 @@ class App extends Component {
           }
   };
 
-  //////////For special menu//////////////////
+  // ** For special menu ** //
   addToCart = (props) => {
 
       for(let i=0; i < this.state.itemsInCart.length; i++){
@@ -368,7 +369,7 @@ class App extends Component {
       //this.props.setLoading(false);
     };
 
-  //////////////For daily menu/////////////////////////
+  // ** For daily menu ** //
   add = (props) => {
       for(let i=0; i < this.state.itemsInCart.length; i++){
         let tempTotalQuantity = this.state.totalQuantity;
