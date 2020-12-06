@@ -1,5 +1,6 @@
 const { NamedModulesPlugin } = require("webpack");
 
+//email not require
 module.exports = {
-    password: 'fastfood@92202'
+    password: '1234'
 }
