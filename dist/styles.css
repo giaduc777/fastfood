@@ -665,6 +665,32 @@ body {
   height: 100vh;
 }
 @charset "UTF-8";
+.globalClasses .inputButton {
+  color: white;
+  font-weight: bold;
+  background-color: #e72424;
+}
+.globalClasses .form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+  width: 90%;
+}
+.globalClasses .form label {
+  margin-bottom: 5px;
+}
+.globalClasses .form input {
+  margin-bottom: 10px;
+  height: 24px;
+  border-radius: 5px;
+}
+.globalClasses .x-button {
+  font-size: 1.3rem;
+  color: white;
+  font-weight: bold;
+  background-color: #e72424;
+}
+
 .genericClasses .inputButton {
   color: white;
   font-weight: bold;

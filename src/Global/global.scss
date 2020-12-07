@@ -1,0 +1,32 @@
+.globalClasses {
+
+    .inputButton{
+      color: white;
+      font-weight: bold;
+      background-color: rgb(231, 36, 36);
+    }
+      
+    .form {
+      display: flex;
+      flex-direction: column;
+      margin-top: 35px;
+      width: 90%;
+    }
+
+    .form label {
+      margin-bottom: 5px;
+    }
+      
+    .form input {
+      margin-bottom: 10px;
+      height: 24px;
+      border-radius: 5px;
+    }
+
+    .x-button {
+      font-size: 1.3rem;
+      color: white;
+      font-weight: bold;
+      background-color: rgb(231, 36, 36);
+    }
+}

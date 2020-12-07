@@ -297,26 +297,8 @@ class App extends Component {
       login: false
   }
 
-  //Get menu items that has quantity larger than 1.
-  //Only componentDidUpdate() used this.
-  getAsyncOrders = async () => {
-    let orders={};
-    let ordersArray = [];
-
-    //go through the whole itemsInCart & get items that has quantity larger than 1,
-    //& put it in orders={}
-    for(let i=0; i < this.state.itemsInCart.length; i++){
-      if(this.state.itemsInCart[i][0].quantity > 0){
-        ordersArray.push(this.state.itemsInCart[i][0])
-      }
-    }
-    orders = {...ordersArray}
-  
-    return orders;
-  };
-
-  //This will be call from SideMenu.js when the user logout
-  //this.state.itemsInCart will be reset.
+  // ** This will be call from SideMenu.js when the user logout ** //
+  // ** this.state.itemsInCart will be reset. ** //
   resetItemsInCart = () => {
     
     let tempItemsInCart = this.state.itemsInCart;
@@ -351,7 +333,6 @@ class App extends Component {
 
   // ** For special menu ** //
   addToCart = (props) => {
-
       for(let i=0; i < this.state.itemsInCart.length; i++){
           let tempQuantity = this.state.itemsInCart[i][0].quantity;
           let tempItemsInCart = this.state.itemsInCart;
@@ -366,8 +347,7 @@ class App extends Component {
               break;
           }
       }
-      //this.props.setLoading(false);
-    };
+  };
 
   // ** For daily menu ** //
   add = (props) => {
@@ -376,7 +356,8 @@ class App extends Component {
         let tempQuantity = this.state.itemsInCart[i][0].quantity;
         let tempItemsInCart = this.state.itemsInCart;
        
-        //check the selected menu item against the itemsInCart state. Increase that item by one if match.
+        // check the selected menu item against the itemsInCart state. 
+        // Increase that item by one if match.
         if(props.id === this.state.itemsInCart[i][0].name){
             tempQuantity += 1;
             tempTotalQuantity += 1;
@@ -389,11 +370,11 @@ class App extends Component {
     }
   };
 
-  //decrease the item quantity by 1 only.
+  // ** decrease the item quantity by 1 only ** //
   decrease = (item) => {
     let tempItemsInCart = this.state.itemsInCart;
-    //Search the state itemsInCart[], & set the item quantity to zero.
 
+    // Search the state itemsInCart[], & set the item quantity to zero.
     for(let i=0; i < tempItemsInCart.length; i++){
       if(tempItemsInCart[i][0].name === item && tempItemsInCart[i][0].quantity > 1){
         tempItemsInCart[i][0].quantity -= 1;
@@ -404,11 +385,11 @@ class App extends Component {
     localStorage.setItem('items', JSON.stringify(this.state.itemsInCart));
   };
 
-  //increase the item quantity by 1 only.
+  // ** increase the item quantity by 1 only ** //
   increase = (item) => {
     let tempItemsInCart = this.state.itemsInCart;
-    //Search the state itemsInCart[], & set the item quantity to zero.
 
+    // Search the state itemsInCart[], & set the item quantity to zero.
     for(let i=0; i < tempItemsInCart.length; i++){
       if(tempItemsInCart[i][0].name === item){
         tempItemsInCart[i][0].quantity += 1;
@@ -419,11 +400,11 @@ class App extends Component {
     localStorage.setItem('items', JSON.stringify(this.state.itemsInCart));
  };
 
-  //remove item completely regardless of quantity.
+  // ** remove item completely regardless of quantity ** //
   removeItem = (item) => {
       let tempItemsInCart = this.state.itemsInCart;
-      //Search the state itemsInCart[], & set the item quantity to zero.
 
+      // Search the state itemsInCart[], & set the item quantity to zero.
       for(let i=0; i < tempItemsInCart.length; i++){
         if(tempItemsInCart[i][0].name === item){
           tempItemsInCart[i][0].quantity = 0;
@@ -450,7 +431,7 @@ class App extends Component {
        let totalPrice = 0;
        let quantities = 0;
 
-        //add up total price.
+       // add up total price.
        for(let i=0; i < this.state.itemsInCart.length; i++){
         quantities = this.state.itemsInCart[i][0].quantity;
 

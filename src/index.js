@@ -8,7 +8,6 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from './reducer';
 import MenuBackground from '../src/components/MenuBackground/MenuBackground';
-
 import './main.scss';
 
 const store = createStore(reducer)

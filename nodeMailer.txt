@@ -1,0 +1,24 @@
+/*
+	let transporter = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+		  user: 'myfastfood14@gmail.com',
+		  pass: emailPassword.password
+		}
+	});
+
+	let mailOptions = {
+		from: 'MyFastFood14@gmail.com',
+		to: req.body.email,
+		subject: 'Order Confirmation',
+		text: "Thanks for your order, it'll be ready in 30 mins."
+	  };
+
+	transporter.sendMail(mailOptions, function(error, info){
+		if (error) {
+		  console.log(error);
+		} else {
+		  console.log('Email sent: ' + info.response);
+		}
+	}); 
+*/

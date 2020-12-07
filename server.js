@@ -5,8 +5,6 @@ const app = express();
 const User = require('./models/User');
 const Guess = require('./models/Guess');
 const authen = require('./authen');
-var nodemailer = require('nodemailer');
-const validator = require('validator');
 const port = process.env.PORT || 8080
 require('./mongoose');
 
@@ -22,15 +20,12 @@ app.post('/api/signIn', async(req,res) => {
 	   const user = await User.findOne({'email': req.body.email});
    
        if(user === null){
-        console.log("from SignIn if")
 		   res.send(false)
 	   }
 	   else {
-      console.log("from SignIn else")
 		   const match = await bcrypt.compare(req.body.password, user.password);
 
 		   if(!match){
-        console.log("from SignIn else ---- if")
 			    res.send(false);
 		   }
 			else{
@@ -43,18 +38,17 @@ app.post('/api/signIn', async(req,res) => {
 	   }
 	}
 	catch(err){
-		console.log("/api/signIn 3",err)
+		console.log("From catch block: ",err)
 		res.send("mongoose connection error")
 	}
 });
 
 // ** Create new user ** //
 app.post('/api/createUser', async(req,res) => {
-	console.log("9999999999999999")
+
     try{
-      console.log("10000000000")
 		const hash = await bcrypt.hash(req.body.Password, 8);
-console.log("before new User()")
+
 		const user = new User({
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
@@ -63,7 +57,7 @@ console.log("before new User()")
 			password: hash,
 			rewardPoints: req.body.rewardPoints
 		});
-    console.log("after new User()")
+    
 		const status = await user.generateToken();
 
 		res.send({
@@ -94,7 +88,7 @@ app.post('/api/placeOrder', authen, async (req, res) => {
 			res.send("success")
 		}
 		catch(err){
-			console.log("/api/placeOrder Error: ", err)
+			console.log("From catch block: ", err)
 		}
 	}
 	// ** user is a guess ** //
@@ -105,44 +99,17 @@ app.post('/api/placeOrder', authen, async (req, res) => {
 			res.send("success")
 		}
 		catch(err){
-			console.log("/api/placeOrder Error: ", err)
+			console.log("From catch block: ", err)
 		}
 	}
 
-	// ** Email confirmation no enable ** //
-	/*
-	let transporter = nodemailer.createTransport({
-		service: 'gmail',
-		auth: {
-		  user: 'myfastfood14@gmail.com',
-		  pass: emailPassword.password
-		}
-	});
-
-	let mailOptions = {
-		from: 'MyFastFood14@gmail.com',
-		to: req.body.email,
-		subject: 'Order Confirmation',
-		text: "Thanks for your order, it'll be ready in 30 mins."
-	  };
-
-	transporter.sendMail(mailOptions, function(error, info){
-		if (error) {
-		  console.log(error);
-		} else {
-		  console.log('Email sent: ' + info.response);
-		}
-	}); 
-	*/
+	// ** Put nodeMailer.txt code here to enable email confirmation ** //
 });
-
 
 // ** Profile ** //
 app.post('/api/profile', authen, async (req, res) => {
-  console.log("/api/profile  begins...: ")
-  console.log("/api/profile  req.user", req.user)
+
 	if(req.user){
-    //console.log("/api/profile, inside if()", req.user)
 		res.send({
 			firstName: req.user.firstName, 
 			lastName: req.user.lastName, 
@@ -157,7 +124,6 @@ app.post('/api/profile', authen, async (req, res) => {
 app.post('/api/orders', authen, async (req, res) => {
 	
 	if(req.user){
-
 		let orderList=[];
 
 		for( let i=0; i < req.user.orders.length; i++){
@@ -173,7 +139,7 @@ app.post('/api/orders', authen, async (req, res) => {
 		})
 	}
 	else if(!req.user){
-		throw new Error(res.send("no good"))
+		throw new Error(res.send("User not found!"));
 	}
 });
 

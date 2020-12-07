@@ -78,22 +78,13 @@ class MemberRewards extends Component{
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <Link className="nav-link text-white" to='/memberRewards'>Rewards</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link text-white" to='/Orders'>Orders</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link text-white" to='/Profile'>Profile</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link text-white" to='/'>Home</Link>
-                            </li>
+                            <Link className="nav-link text-white" to='/memberRewards'>Rewards</Link>
+                            <Link className="nav-link text-white" to='/Orders'>Orders</Link>
+                            <Link className="nav-link text-white" to='/Profile'>Profile</Link>
+                            <Link className="nav-link text-white" to='/'>Home</Link>
                         </ul>
                     </div>
                 </nav>
-
                 <div className="bg-background container col-10 mb-3">
                     <h1 className="text-center mt-3 pt-4">Points</h1>
                     <div className="col-8 col-sm-6 col-md-4 col-lg-3 border border-danger borderPoint m-auto p-3">
