@@ -5,6 +5,16 @@ import styles from './Checkout.module.scss';
 
 class Checkout extends Component{
 
+    componentDidMount(){
+        document.getElementById('credit').addEventListener('click', e => {
+            document.getElementById('paymentInfo').className=`${styles.billing2}`
+        });
+
+        document.getElementById('cash').addEventListener('click', e => {
+            document.getElementById('paymentInfo').className=`${styles.billing}`
+        });
+    }
+
     state = {
         firstName: "",
         lastName: "",
@@ -48,7 +58,19 @@ class Checkout extends Component{
                             </div>
                     </div>
                     <hr></hr>
-                    <div className={`${styles.billing}`}>
+                    
+                    <div className={`m-auto bg-light col-6 d-flex justify-content-between`}>
+                        <div>
+                            <input className={`mr-1`} type="radio" id="cash" name="paymentType"></input>
+                            <label for="cash">Cash</label>
+                        </div>
+                        <div>
+                            <input className={`mr-1`} type="radio" id="credit" name="paymentType"></input>
+                            <label for="credit">Credit</label>
+                        </div>
+                    </div>
+
+                    <div id='paymentInfo' className={`${styles.billing}`}>
                             <h2>Payment Information</h2>
                             <form className={`${styles.form}`}>
                             <label htmlFor="cardNumber">Card Number</label>
@@ -106,6 +128,7 @@ class Checkout extends Component{
                                     <input className="w-25" id="securityCode" name="securityCode" type="input"></input>
                                 </div>
                             </div>
+                          
                         </form>
                     </div>
                     

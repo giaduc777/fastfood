@@ -22,7 +22,6 @@
             height: 24px;
             border-radius: 5px;
         }
-        
     }
 
     .carryoutAddress {
@@ -36,11 +35,52 @@
     }
 
     .billing {
+        display: none;
+        flex-direction: column;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        min-height: 30%;
+
+        .dropdown {
+            display: flex;
+            width: 100%;
+
+            .month {
+                width: 60%;
+                margin-top: 15px;
+
+                select {
+                    width: 90%;
+                    font-size: 20px;
+                    border-radius: 5px;
+                    padding: 5px 5px;
+                    margin-top: 5px;
+                }
+            }
+
+            .year {
+                width: 40%;
+                margin-top: 15px;
+
+                select {
+                    width: 100%;
+                    font-size: 20px;
+                    border-radius: 5px;
+                    padding: 5px 5px;
+                    margin-top: 5px;
+                }
+            }
+        }
+    }
+
+    .billing2 {
         display: flex;
         flex-direction: column;
         width: 90%;
         margin-left: auto;
         margin-right: auto;
+        padding-top: 20px;
         min-height: 30%;
 
         .dropdown {
