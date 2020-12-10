@@ -11,7 +11,6 @@ import YourCart from './containers/YourCart/YourCart';
 import Checkout from './containers/Checkout/Checkout';
 import AboutUs from './containers/AboutUs/AboutUs';
 import SignIn from './containers/SignIn/SignIn';
-import SignInToCheckout from './containers/SignInToCheckout/SignInToCheckout';
 import MemberRewards from './containers/MemberRewards/MemberRewards';
 import Orders from './containers/Orders/Orders';
 import Profile from './containers/Profile/Profile';
@@ -508,7 +507,6 @@ class App extends Component {
                <Route path="/placeYourOrder" render={() => <PlaceYourOrder subTotal={this.getSubtotal()} resetItemsInCart={this.resetItemsInCart} /> } />
                <Route path="/createAccount" render={() => <CreateAccount login={() => this.login()} />} />
                <Route path="/signIn" render={() => <SignIn login={() => this.login()} />} />
-               {/*/ <Route path="/SignInToCheckout" render={() => <SignInToCheckout login={() => this.login()} />} /> */}
             </Switch>
          </div>
     );
