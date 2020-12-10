@@ -54,7 +54,7 @@ class YourCart extends Component{
                     <div className={`${styles.YourCart_checkOut}`}>
                         <Link className={`${styles.pillButton}`} to='/'><span className="badge badge-info">Go Back</span></Link>
                         <Link className={`${styles.pillButton}`} to='/checkout'><span className="badge badge-info">Check out as Guess</span></Link>
-                        <Link className={`${styles.pillButton}`} to='/SignInToCheckout'><span className="badge badge-info">Sign In to Check out</span></Link>
+                        <Link className={`${styles.pillButton}`} to='/SignIn'><span className="badge badge-info">Sign In to Check out</span></Link>
                     </div>
                 )
             }

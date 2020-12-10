@@ -30,7 +30,7 @@ class Checkout extends Component{
 
     render(){
         return(
-                <div className={`bg-background mt-5 mb-5 ml-auto mr-auto p-0 d-flex flex-column col-10 col-md-8 col-lg-6 ${styles.CheckOut}`}>
+                <div className={`bg-background mt-5 mb-5 p-0 col-10 col-md-8 col-lg-6 ${styles.CheckOut}`}>
                     <div className="align-self-end genericClasses"><Link to="/"><span className="badge x-button">X</span></Link></div>
                     <div className={`${styles.contact}`}>
                         <h1>Tell Us About Yourself</h1>
@@ -59,14 +59,14 @@ class Checkout extends Component{
                     </div>
                     <hr></hr>
                     
-                    <div className={`m-auto bg-light col-6 d-flex justify-content-between`}>
+                    <div className={`m-auto bg-light col-5 col-md-4 col-lg-4 col-xl-3 d-flex justify-content-between`}>
                         <div>
                             <input className={`mr-1`} type="radio" id="cash" name="paymentType"></input>
-                            <label for="cash">Cash</label>
+                            <label htmlFor="cash">Cash</label>
                         </div>
                         <div>
                             <input className={`mr-1`} type="radio" id="credit" name="paymentType"></input>
-                            <label for="credit">Credit</label>
+                            <label htmlFor="credit">Credit</label>
                         </div>
                     </div>
 
@@ -79,7 +79,7 @@ class Checkout extends Component{
                             <label htmlFor="nameOnCard">Name On Card</label>
                             <input id="nameOnCard" name="nameOnCard" type="input"></input>
 
-                            <div className={`${styles.dropdown} d-flex flex-column flex-sm-row`}>
+                            <div className={`${styles.dropdown}`}>
                                 <div className={`${styles.month} w-100`}>
                                     <label htmlFor="month">Exp. Month:</label>
                                     <select id="month">

@@ -508,7 +508,7 @@ class App extends Component {
                <Route path="/placeYourOrder" render={() => <PlaceYourOrder subTotal={this.getSubtotal()} resetItemsInCart={this.resetItemsInCart} /> } />
                <Route path="/createAccount" render={() => <CreateAccount login={() => this.login()} />} />
                <Route path="/signIn" render={() => <SignIn login={() => this.login()} />} />
-               <Route path="/SignInToCheckout" render={() => <SignInToCheckout login={() => this.login()} />} />
+               {/*/ <Route path="/SignInToCheckout" render={() => <SignInToCheckout login={() => this.login()} />} /> */}
             </Switch>
          </div>
     );

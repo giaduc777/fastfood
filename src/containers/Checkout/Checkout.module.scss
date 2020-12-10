@@ -1,4 +1,8 @@
 .CheckOut {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+
     .contact {
         display: flex;
         flex-direction: column;
@@ -84,7 +88,6 @@
         min-height: 30%;
 
         .dropdown {
-            display: flex;
             width: 100%;
 
             .month {

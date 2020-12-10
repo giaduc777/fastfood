@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import styles from './SignIn.module.scss';
 import RequestError from '../../components/Alerts/RequestError/RequestError';
 import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
+import SpinningCircle from '../../components/SpinningCircle/SpinningCircle';
 
 
 class SignIn extends Component{
@@ -15,7 +16,8 @@ class SignIn extends Component{
         Email: '',
         Password: '',
         requestError: false,
-        errorMessage: ''
+        errorMessage: '',
+        spinningCircle: false
     }
 
     resetRequestError = () => {
@@ -31,6 +33,7 @@ class SignIn extends Component{
 
     handleSubmit = async (e) => {
         e.preventDefault()
+        this.setState({spinningCircle: true})
 
         let myURL;
 
@@ -48,7 +51,11 @@ class SignIn extends Component{
               });
               
              if(user.data === false){
-                this.setState({requestError: true, errorMessage: "Sorry, invalid login !"});
+                this.setState({
+                    requestError: true, 
+                    errorMessage: "Sorry, invalid login !",
+                    spinningCircle: false
+                });
              }
              else{
                 this.props.setToken(user.data.token);
@@ -66,6 +73,11 @@ class SignIn extends Component{
       };
     render(){
         let requestError;
+        let spinningCircle;
+
+        if(this.state.spinningCircle){
+            spinningCircle = (<SpinningCircle />)
+        }
 
         if(this.state.requestError){
             requestError = (
@@ -77,7 +89,8 @@ class SignIn extends Component{
         }
 
         return(
-           <div className="container bg-background p-0 d-flex flex-column mt-5 genericClasses">
+           <div className="container bg-background p-0 d-flex flex-column mt-5 genericClasses col-10 col-md-8 col-lg-6">
+               {spinningCircle}
                {requestError}
                 <div className="align-self-end"><Link to="/"><span className="badge x-button">X</span></Link></div>
                 <div className={`col-lg-9 m-auto ${styles.SignIn}`}>
