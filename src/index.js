@@ -12,6 +12,7 @@ import './main.scss';
 
 const store = createStore(reducer)
 
+
 const app = (
     <Provider store={store}>
         <BrowserRouter>

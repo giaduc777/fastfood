@@ -58,6 +58,8 @@ class SignIn extends Component{
                 });
              }
              else{
+
+                console.log("USER_DATA >>> ", user.data)
                 this.props.setToken(user.data.token);
                 this.props.setUser(user.data.firstName);
 
