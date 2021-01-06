@@ -31,7 +31,8 @@ class MemberRewards extends Component{
 
     getProfile = async () => {
         
-        let myURL;
+        /*
+            let myURL;
 
         if( process.env.NODE_ENV === 'production'){
             myURL = ADDRESS + '/api/profile';
@@ -39,10 +40,13 @@ class MemberRewards extends Component{
         else {
             myURL = '/api/profile';
         }
-     
-        const tempToken = localStorage.getItem("token");
+        */
+       console.log("from memberReward >>>", this.props.userInfo)
+       this.setState({rewardPoints: this.props.userInfo.rewardPoints})
+        //const tempToken = localStorage.getItem("token");
 
-        try{
+        /*
+          try{
             const profile = await Axios.post(myURL, {
                 token: tempToken
             }); 
@@ -53,6 +57,8 @@ class MemberRewards extends Component{
             console.log("from catch block", err);
             this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
         }
+
+        */
     }
 
     render(){
@@ -151,7 +157,7 @@ class MemberRewards extends Component{
 
 const mapStateToProps = state => {
     return {
-        user: state.user
+        userInfo: state
     }
 }
 

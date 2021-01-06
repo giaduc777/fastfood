@@ -6,15 +6,16 @@ import {connect} from 'react-redux';
 
 class sideMenu extends Component{
 
-    setLogout = () => {
-        localStorage.clear(); 
-        this.props.closeSideMenu();
-        this.props.setUser();
-        this.props.resetToken();
-        this.props.logout();
+    logOut = () => {
+        //localStorage.clear(); 
+        //this.props.closeSideMenu();
+        //this.props.setUser();
+       // this.props.resetToken();
+        this.props.resetLogin();
+        
 
         // ** this will reset the itemsInCart state of App.js ** //
-        this.props.resetItemsInCart();
+        //this.props.resetItemsInCart();
     }
 
     render(){
@@ -25,7 +26,7 @@ class sideMenu extends Component{
         if(this.props.login === true){
             // ** enable this to reset the local database ** //
             // ** localStorage.clear() ** //
-            login = <a className="btn btn-sm mr-4 btn-primary text-white nav-link" onClick={()=>this.setLogout()}>Sign Out</a>
+            login = <a className="btn btn-sm mr-4 btn-primary text-white nav-link" onClick={()=>this.logOut()}>Sign Out</a>
         }
         else if(this.props.login === false){
 
@@ -49,7 +50,7 @@ class sideMenu extends Component{
                         {signUp}
                         {login}
                         <Link className="nav-link text-white pl-0" to="/yourCart">Your Cart</Link>
-                        {this.props.user ? <Link className="nav-link text-white pl-0" to="/memberRewards">Member Zone</Link> : null}
+                        {this.props.login ? <Link className="nav-link text-white pl-0" to="/memberRewards">Member Zone</Link> : null}
                         <Link className="nav-link text-white pl-0" to="/AboutUs">About Us</Link>
                     </ul>
                 </div>
@@ -58,16 +59,17 @@ class sideMenu extends Component{
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return{
-        resetToken: () => dispatch({type: 'RESET'}),
-        setUser: () => dispatch({type: 'SET-USER', value: undefined})
+        login: state.login
     }
 }
 
-const mapStateToProps = state => {
+const mapDispatchToProps = dispatch => {
     return{
-        user: state.user
+       // resetToken: () => dispatch({type: 'RESET'}),
+        //setUser: () => dispatch({type: 'SET-USER', value: undefined})
+        resetLogin: () => dispatch({type: "RESET_LOGIN"})
     }
 }
 

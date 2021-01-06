@@ -58,13 +58,13 @@ class SignIn extends Component{
                 });
              }
              else{
-
-                console.log("USER_DATA >>> ", user.data)
-                this.props.setToken(user.data.token);
-                this.props.setUser(user.data.firstName);
-
+                console.log("USER_DATA SIGN-In >>> ", user.data)
+                //this.props.setToken(user.data.token);
+                //this.props.setUser(user.data.firstName);
+                this.props.initUser(user.data);
                 // ** set login state to true in App() ** //
-                this.props.login();
+                //this.props.login();
+                localStorage.setItem("token", user.data.token)
                 this.props.history.push('/');
              }
           }
@@ -74,6 +74,7 @@ class SignIn extends Component{
           }
       };
     render(){
+        //console.log("RENDER >>> ", this.props.polo)
         let requestError;
         let spinningCircle;
 
@@ -133,14 +134,17 @@ class SignIn extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        setToken: (newToken) => dispatch({type: 'SET-TOKEN', value: newToken}),
-        setUser: (user) => dispatch({type: 'SET-USER', value: user})
+        //setToken: (newToken) => dispatch({type: 'SET-TOKEN', value: newToken}),
+        //setUser: (user) => dispatch({type: 'SET-USER', value: user}),
+        initUser: (payload) => dispatch({type: 'INIT_USER', payload: payload}),
+        login: () => dispatch({type: 'LOGIN', value: true})
     }
 }
 
 const mapStateToProps = state =>{
     return {
-        token: state.token
+        //token: state.token,
+        polo: state
     }
 }
 

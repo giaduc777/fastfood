@@ -9,6 +9,7 @@ import styles from './ReviewOrder.module.scss';
 class ReviewOrder extends Component{
 
     placeOrder = async () => {
+        console.log("from ReviewOrder placeOrder() >>>")
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
@@ -20,7 +21,7 @@ class ReviewOrder extends Component{
 
         this.props.setLoading(true)
 
-        const tempToken = localStorage.getItem("token");
+        //const tempToken = localStorage.getItem("token");
          
         try{
             await Axios.post(myURL, {
@@ -28,8 +29,8 @@ class ReviewOrder extends Component{
                 lastName: this.props.userInfo.lastName,
                 email: this.props.userInfo.email,
                 phone: this.props.userInfo.phone,
-                token: tempToken,
-                login: this.props.login,
+                token: this.props.userInfo.token,
+                login: this.props.userInfo.login,
                 items: this.props.getOrders(),
                 rewardPoints: Math.round(this.props.getSubtotal()),
                 subTotal: this.props.getSubtotal()

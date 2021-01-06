@@ -47,15 +47,17 @@ import rootbeerFloat from '../src/asset/menus_300_compress/rootbeerFloat_300.jpg
 class App extends Component {
   
   async componentDidMount(){
+   // console.log("App.js did mount >>>>>>>>>999", this.props.token)
     /* When component first mount, retrieve token from local storage
       & authenticate with the server.(token either exist or its doesn't).
       This will only execute when new browser is open. If token doesn't 
       exist than user doesn't exist. */
 
     // ** enable if local storage need to be reset ** //
-    // ** localStorage.clear(); ** //
+    //localStorage.clear();
     try{
 
+      // determine api address //
       let myURL;
 
         if( process.env.NODE_ENV === 'production'){
@@ -64,22 +66,52 @@ class App extends Component {
         else {
             myURL = '/api/user';
         }
-
-      const user = await axios.post(myURL, {token: localStorage.getItem("token")});
+      ///////////////
       
-      this.props.setUser(user.data.firstName);
-      
-      if(user.data && localStorage.getItem("items")){
-        const items = JSON.parse(localStorage.getItem("items"))
-        this.setState({itemsInCart: items, login: true})
+      //if not true, thats mean no token is stored in LS. User not login. //
+      let user = false;
+      if(localStorage.getItem("token")){
+        console.log("maxxxy>>>> ckeck LS")
+        user = await axios.post(myURL, {token: localStorage.getItem("token")});
+        console.log("maxxxy>>>> ckeck LS, user", !user)
       }
-      else if(localStorage.getItem("items")){
+
+      console.log("maxxxy>>>> Mount: USER", user)
+      if(user !== false){
+    
+        //console.log("maxxxy>>>> !USER", user)
+        // init all user properties //
+       this.props.initUser(user.data)
+
+          //console.log("maxxxy>>>> Mount: LS", localStorage.getItem("token"))
+          if(localStorage.getItem("items")){
             const items = JSON.parse(localStorage.getItem("items"))
             this.setState({itemsInCart: items})
+          }
+    
       }
-      else if(user.data){
-        this.setState({login: true})
-      }
+      
+      else if(localStorage.getItem("items")){
+        const items = JSON.parse(localStorage.getItem("items"))
+        this.setState({itemsInCart: items})
+  }
+      
+
+
+      
+      //console.log("App.js  user from axios >>>>>>>>>", user.data)
+
+      //use date to determine if user is true/false //
+      // find out which component used this.... //
+      //this.props.setUser(user.data);
+      
+      //if user.data is true(login verify) , and there's cart items in local storage //
+      
+      //if user is a guess //
+      
+
+      // if user is login , but no items is in local storage //
+      
       
     }
     catch(err){
@@ -87,18 +119,22 @@ class App extends Component {
     }
   };
 
+  getToken = () => {
+     return localStorage.getItem("token")
+  }
+
   /* When you sign in, SignIn.js will call the server to authenticate the
      username & password. If success, SignIn.js will store the token & userName
      to redux. App.js will store the token in local storage. The "token" name 
      should be unique, so it doesn't mix up with other local storage token. */
-
+/*
   componentDidUpdate(){
 
     if(this.props.token !== null){
       localStorage.setItem("token",this.props.token)
     }
   }
-  
+  */
   state = {
       itemsInCart: [
         [
@@ -292,8 +328,8 @@ class App extends Component {
       ],
     ],
 
-      token: "",
-      login: false
+      //token: "",
+      //login: false
   }
 
   // ** This will be call from SideMenu.js when the user logout ** //
@@ -453,6 +489,7 @@ class App extends Component {
        return (total + (total * 0.0925)).toFixed(2);
   };
 
+  /*
   logout = () => {
 
     localStorage.clear(); 
@@ -465,11 +502,16 @@ class App extends Component {
     this.props.setUser("");;
     
   };
+  */
 
   login = () => {
+
+    /*
       this.setState({
         login: true
       })
+
+    */
   }
 
   render(){
@@ -515,16 +557,19 @@ class App extends Component {
 
 const mapStateToProps = state =>{
   return {
-      token: state.token,
-      loading: state.loading
+      loading: state.loading,
+      login: state.login,
+      token: state.token
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return{
-       resetToken: () => dispatch({type: 'RESET'}),
-       setUser: (user) => dispatch({type: 'SET-USER', value: user}),
-       setLoading: (value) => dispatch({type: 'SET-LOADING', value: value})
+       //resetToken: () => dispatch({type: 'RESET'}),
+       //setUser: (user) => dispatch({type: 'SET-USER', value: user}),
+       //setLoading: (value) => dispatch({type: 'SET-LOADING', value: value}),
+       initUser: (payload) => dispatch({type: 'INIT_USER', payload: payload}),
+       //login: () => dispatch({type: "LOGIN" , value: true})
   }
 }
 

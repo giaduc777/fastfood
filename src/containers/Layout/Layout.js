@@ -27,37 +27,47 @@ class Layout extends Component{
       this.setState({sideMenu: null, backdrop: null})
     }
 
-    setLogout = () => {
+    logOut = () => {
+      ////////////////////////////////
+      //i reset the whole redux user props. when user logout
+      //see if this is nescessary or no ?
+      this.props.resetUser();
+      /////////////////////////////
+
+
+
       localStorage.clear(); 
-      this.props.setUser();
-      this.props.resetToken();
-      this.props.logout();
+      this.props.resetItemsInCart()
+      //this.props.setUser();
+      //this.props.resetToken();
+      
       
       // ** this will reset the itemsInCart state of App.js ** //
-      this.props.resetItemsInCart();
+      //this.props.resetItemsInCart();
     }
 
     render(){  
+      console.log("Layout REnder >>>> login", this.props.state)
         let memberRewards;
         let login;
         let signUp;
         let user;
-
-        if(this.props.state.login === true){
+       
+        if(this.props.login === true){
             
             login = (
-              <Link className={`nav-link text-white btn btn-sm mr-4 btn-deepSky`} onClick={()=>this.setLogout()} to="/">Sign Out</Link>
+              <Link className={`nav-link text-white btn btn-sm mr-4 btn-deepSky`} onClick={()=>this.logOut()} to="/">Sign Out</Link>
             );
 
             memberRewards = (
-              <Link className={`nav-link text-white`} to="/memberRewards">Member Zone</Link>
+              <Link className="nav-link text-white" to="/memberRewards">Member Zone</Link>
             );
 
             user = (
-              <h5 className={`text-white mr-3 align-self-center`}>Hi, {this.props.user}!</h5>
+              <h5 className={`text-white mr-3 align-self-center`}>Hi, {this.props.firstName}!</h5>
             );
         }
-        else if(this.props.state.login === false){
+        else if(this.props.login === false){
 
             signUp = (
                 <Link className={`btn btn-sm mr-4 btn-deepSky nav-link`} to="/createAccount">SIGN UP</Link>
@@ -130,14 +140,16 @@ class Layout extends Component{
 
 const mapStateToProps = state => {
    return {
-     user: state.user
+     firstName: state.firstName,
+     login: state.login
    }
 }
 
 const mapDispatchToProps = dispatch => {
   return{
-       resetToken: () => dispatch({type: 'RESET'}),
-      setUser: (user) => dispatch({type: 'SET-USER', value: user})
+       //resetToken: () => dispatch({type: 'RESET'}),
+       //setUser: (user) => dispatch({type: 'SET-USER', value: user})
+       resetUser: () => dispatch({type: "RESET_USER"})
   }
 }
 

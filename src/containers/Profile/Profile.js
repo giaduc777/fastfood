@@ -11,8 +11,11 @@ import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 class Profile extends Component{
 
     componentDidMount(){
+        console.log("from profile >>> did mount >>", this.props.userInfo)
         this.getProfile()
     }
+
+    
 
     state = {
         firstName: '',
@@ -29,7 +32,14 @@ class Profile extends Component{
     }
 
     getProfile = async () => {
-        
+        this.setState({
+            firstName: this.props.userInfo.firstName,
+            lastName: this.props.userInfo.lastName,
+            phone: this.props.userInfo.phone,
+            email: this.props.userInfo.email,
+            rewardPoints: this.props.userInfo.rewardPoints
+        })
+        /*
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
@@ -52,6 +62,7 @@ class Profile extends Component{
             console.log("From catch block", err);
             this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
         }
+        */
     }
 
     render(){
@@ -121,7 +132,7 @@ class Profile extends Component{
 
 const mapStateToProps = state => {
     return {
-        userProfile: state
+        userInfo: state
     }
 }
 

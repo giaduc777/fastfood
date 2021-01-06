@@ -49,7 +49,7 @@ class YourCart extends Component{
                 };
             }
 
-            if(!this.props.user){
+            if(!this.props.login){
                 checkOut = (
                     <div className={`${styles.YourCart_checkOut}`}>
                         <Link className={`${styles.pillButton}`} to='/'><span className="badge badge-info">Go Back</span></Link>
@@ -99,7 +99,7 @@ class YourCart extends Component{
 
 const mapStateToProps = state => {
     return {
-        user: state.user
+        login: state.login
     }
 }
 

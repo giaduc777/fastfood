@@ -13,9 +13,25 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'index.html')))
 
+
+/////////////////////
+const getOrderHistory = (orders) => {
+	let orderList=[];
+
+		for( let i=0; i < orders.length; i++){
+			orderList.push({
+				order: Object.values(orders[i].items),
+				time: orders[i]._id.getTimestamp().toString().slice(0,21),
+				subTotal: orders[i].subTotal
+			})
+		}
+		console.log("from getOrderHistory >>> ", orderList)
+	return orderList;
+}
+
 // ** Sign in ** //
 app.post('/api/signIn', async(req,res) => {
-	
+	console.log("from api/SignIn >>> ")
 	try{
 	   const user = await User.findOne({'email': req.body.email});
    
@@ -29,10 +45,19 @@ app.post('/api/signIn', async(req,res) => {
 			    res.send(false);
 		   }
 			else{
+
+				/////////////////// get order history
+                const tempOrderHistory = getOrderHistory(user.orders)
+
+				///////////////////
 				res.send({
 					token: user.tokens[0].token,
 					email: user.email,
-					firstName: user.firstName
+					firstName: user.firstName,
+					lastName: user.lastName,
+					rewardPoints: user.rewardPoints,
+					phone: user.phone,
+					orderHistory: tempOrderHistory
 				});
 			}
 	   }
@@ -73,12 +98,27 @@ app.post('/api/createUser', async(req,res) => {
 
 // ** Load user on browser refresh ** //
 app.post('/api/user', authen, async (req, res) => {
-	res.send(req.user)
+	
+    let user = req.user;
+	/////////////////// get order history
+	///reUse function///
+	const tempOrderHistory = getOrderHistory(user.orders)
+
+	///////////////////reUse
+	res.send({
+		token: user.tokens[0].token,
+		email: user.email,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		rewardPoints: user.rewardPoints,
+		phone: user.phone,
+		orderHistory: tempOrderHistory
+	});
 });
 
 // ** Place order ** //
 app.post('/api/placeOrder', authen, async (req, res) => {
-	
+	console.log("from /api/placeOrder", req.user)
 	// ** if user is login ** //
 	if(req.user){
         try{
@@ -121,9 +161,12 @@ app.post('/api/profile', authen, async (req, res) => {
 })
 
 // ** Orders history ** //
+/*
 app.post('/api/orders', authen, async (req, res) => {
 	
 	if(req.user){
+
+		//console.log(req.user)
 		let orderList=[];
 
 		for( let i=0; i < req.user.orders.length; i++){
@@ -142,6 +185,7 @@ app.post('/api/orders', authen, async (req, res) => {
 		throw new Error(res.send("User not found!"));
 	}
 });
+*/
 
 // ** Handles any requests that don't match the ones above ** //
 app.get('*', (req,res) =>{

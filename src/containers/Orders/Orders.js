@@ -25,7 +25,15 @@ class Orders extends Component{
     }
 
     retrieveOrders = async () => {
+        console.log("from Orderssss >>> ", this.props.userInfo.orderHistory)
+        
+        
+    
+            this.setState({orders: this.props.userInfo.orderHistory})
 
+
+
+        /*
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
@@ -53,6 +61,7 @@ class Orders extends Component{
             console.log("From catch block", err);
             this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
         }
+        */
     }
 
     loadOrders = () => {
@@ -157,7 +166,7 @@ class Orders extends Component{
 
 const mapStateToProps = state => {
     return {
-        user: state.user
+        userInfo: state
     }
 }
 
