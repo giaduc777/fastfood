@@ -14,7 +14,7 @@ class AboutUs extends Component{
                         <div>
                             <div className="mb-3">Our Location:</div>
                             <div >
-                                <div>555 Fast Food Ave</div> 
+                                <div>999 Fast Food Ave</div> 
                                 <div>San jose, CA, 95009</div>
                                 <div>555-555-5555</div>
                             </div>
