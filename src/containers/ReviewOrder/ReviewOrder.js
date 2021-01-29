@@ -5,11 +5,15 @@ import Axios from 'axios';
 import {ADDRESS} from '../../herokuProxy';
 import {withRouter} from 'react-router-dom';
 import styles from './ReviewOrder.module.scss';
+import SpinningCircle from '../../components/SpinningCircle/SpinningCircle';
 
 class ReviewOrder extends Component{
 
+    state = {
+        spinningCircle: false
+    }
+
     placeOrder = async () => {
-        console.log("from ReviewOrder placeOrder() >>>")
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
@@ -18,12 +22,11 @@ class ReviewOrder extends Component{
         else {
             myURL = '/api/placeOrder';
         }
-
-        this.props.setLoading(true)
-
-        //const tempToken = localStorage.getItem("token");
-         
+        
+        this.setState({spinningCircle: true})
+        
         try{
+            //send current order to Mongo-Atlas
             await Axios.post(myURL, {
                 firstName: this.props.userInfo.firstName,
                 lastName: this.props.userInfo.lastName,
@@ -36,18 +39,49 @@ class ReviewOrder extends Component{
                 subTotal: this.props.getSubtotal()
             }); 
             
-            this.props.setLoading(false)
+            // When order is place and user is login, retrieve
+            // the latest order info. from  mongo atlas, and 
+            // put it in redux.
+            if(localStorage.getItem("token")){
+               try{
+                    let myURL;
+            
+                    if( process.env.NODE_ENV === 'production'){
+                        myURL = ADDRESS + '/api/user';
+                    }
+                    else {
+                        myURL = '/api/user';
+                    }
+                
+                    //if not true, thats mean no token is stored in LS. User not login. //
+                    let user = null;
+                    user = await Axios.post(myURL, {token: localStorage.getItem("token")});
+                    
+                    if(user !== null){
+                        this.props.initUser(user.data)
+                    }
+                    
+                }
+                catch(err){
+                    console.log("from ReviewOrder line: 66", err)
+                }
+            }
+            this.setState({spinningCircle: false})
             this.props.history.push('/placeYourOrder')
         }
          catch(err){
-            //will implement later
-            //the error is throw from the backend
+            console.log("From ReviewOrder.placeOder()", err);
         }
     }
     
     render(){
         let items = [];
         let orders = this.props.getOrders();
+        let spinningCircle;
+
+        if(this.state.spinningCircle){
+            spinningCircle = (<SpinningCircle />)
+        }
     
         if(Object.keys(orders).length !== 0){
             for(let i=0; i < Object.keys(orders).length; i++){
@@ -74,7 +108,7 @@ class ReviewOrder extends Component{
 
         return(
                 <div className={`${styles.ReviewOrder} bg-background mt-5 ml-auto mr-auto p-0 d-flex flex-column col-10 col-md-8 col-lg-6`}>
-                    
+                    {spinningCircle}
                     <div className="align-self-end genericClasses"><Link to="/"><span className="badge x-button">X</span></Link></div>
                     <div className="p-4">
                         <div >
@@ -133,7 +167,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-         setLoading: (value) => dispatch({type: 'SET-LOADING', value: value})
+         setLoading: (value) => dispatch({type: 'SET-LOADING', value: value}),
+         initUser: (payload) => dispatch({type: 'INIT_USER', payload: payload}),
     }
   }
 

@@ -5,7 +5,6 @@ const initialState = {
     orderHistory: "",
     phone: "",
     rewardPoints: "",
-    token: "",
 
     /////////////////
     login: false,
@@ -13,7 +12,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    console.log("from Reducer >>> state", state)
+    //console.log("from Reducer >>> state", state)
 
     if(action.type === "INIT_USER"){
         //console.log("action >>> 'INIT_USER'", action.payload.token)
@@ -26,6 +25,12 @@ const reducer = (state = initialState, action) => {
             phone: action.payload.phone,
             rewardPoints: action.payload.rewardPoints,
             token: action.payload.token,
+            login: true
+        }
+    }
+    else if(action.type === "SET_LOGIN"){
+        return {
+            ...state,
             login: true
         }
     }
@@ -48,10 +53,17 @@ const reducer = (state = initialState, action) => {
             login: false
         }
     }
-    else if(action.type === "SET-LOADING"){
+    else if(action.type === "SET_LOADING"){
         return {
             ...state,
             loading: action.value
+        }
+    }
+    else if(action.type === "SET_USER"){
+        //console.log("set user......", action.value)
+        return{
+            ...state,
+            firstName: action.value
         }
     }
 

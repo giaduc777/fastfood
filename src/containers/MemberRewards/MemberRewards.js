@@ -16,52 +16,48 @@ import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 class MemberRewards extends Component{
 
     componentDidMount(){
-        this.getProfile()
+        //console.log("from memberReward XXX >>>", this.props.userInfo)
+        //this.getProfile()
     }
 
+    componentDidUpdate(){
+        //console.log("from memberReward Update >>>")
+    }
+  
+    /*
     state = {
-        rewardPoints: "",
-        requestError: false,
-        errorMessage: ""
-    }
 
-    resetRequestError = () => {
+          firstName: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        rewardPoints: this.props.userInfo.rewardPoints,
+
+        requestError: false,
+        errorMessage: ''
+    }
+    */
+
+    /*
+       resetRequestError = () => {
         this.setState({requestError: false})
     }
+    
 
-    getProfile = async () => {
-        
-        /*
-            let myURL;
-
-        if( process.env.NODE_ENV === 'production'){
-            myURL = ADDRESS + '/api/profile';
-        }
-        else {
-            myURL = '/api/profile';
-        }
-        */
-       console.log("from memberReward >>>", this.props.userInfo)
-       this.setState({rewardPoints: this.props.userInfo.rewardPoints})
-        //const tempToken = localStorage.getItem("token");
-
-        /*
-          try{
-            const profile = await Axios.post(myURL, {
-                token: tempToken
-            }); 
-             
-            this.setState({rewardPoints: profile.data.rewardPoints})
-        }
-         catch(err){
-            console.log("from catch block", err);
-            this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
-        }
-
-        */
+    getProfile = () => {
+        this.setState({
+            firstName: this.props.userInfo.firstName,
+            lastName: this.props.userInfo.lastName,
+            phone: this.props.userInfo.phone,
+            email: this.props.userInfo.email,
+            rewardPoints: this.props.userInfo.rewardPoints
+        })
     }
+    */
 
     render(){
+        let Contents = null;
+        /*
         let Contents = null;
         let requestError;
 
@@ -73,11 +69,12 @@ class MemberRewards extends Component{
                 </div>
             )
         }
-  
+        */
+
         if(localStorage.getItem('token') !== null){
             Contents = (
             <div className={`${styles.MemberRewards}`}>
-                {requestError}
+                {/*requestError*/}
                 <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                     <button className={`${styles.iconColor} navbar-toggler border`} type="button" data-toggle="collapse" data-target="#navbarNav">
                         <span className={"fa fa-bars"}></span>
@@ -94,7 +91,7 @@ class MemberRewards extends Component{
                 <div className="bg-background container col-10 mb-3">
                     <h1 className="text-center mt-3 pt-4">Points</h1>
                     <div className="col-8 col-sm-6 col-md-4 col-lg-3 border border-danger borderPoint m-auto p-3">
-                        <h2 className="text-center font-weight-bold">{this.state.rewardPoints}</h2>
+                        <h2 className="text-center font-weight-bold">{this.props.userInfo.rewardPoints}</h2>
                     </div>
                     <div className={`${styles.redeemSection}`}>
                         <div >USE YOUR POINTS</div>
@@ -106,7 +103,7 @@ class MemberRewards extends Component{
                             <img className={`${styles.image}`} src={breadStick} alt="deal"></img>
                             <div>BreadSticks</div>
                             <div>75 points</div>
-                            <div>REDEEM ></div>
+                            <div>REDEEM </div>
                         </div>
                     </div>
                     <div className="pb-4">
@@ -116,7 +113,7 @@ class MemberRewards extends Component{
                             <img className={`${styles.image}`} src={hotWings} alt="deal"></img>
                             <div>Hotwings</div>
                             <div>150 points</div>
-                            <div>REDEEM ></div>
+                            <div>REDEEM </div>
                         </div>
                     </div>
                     <div className="pb-4">
@@ -126,7 +123,7 @@ class MemberRewards extends Component{
                             <img className={`${styles.image}`} src={soda} alt="deal"></img>
                             <div>2L Soda</div>
                             <div>50 points</div>
-                            <div>REDEEM ></div>
+                            <div>REDEEM </div>
                         </div>
                     </div>
                     <div className="pb-4">
@@ -136,7 +133,7 @@ class MemberRewards extends Component{
                             <img className={`${styles.image}`} src={mediumCombination} alt="deal"></img>
                             <div className="col-sm-4 p-2">Medium Combination</div>
                             <div>75 points</div>
-                            <div>REDEEM ></div>
+                            <div>REDEEM </div>
                         </div>
                     </div>
                 </div>

@@ -28,55 +28,37 @@ class Layout extends Component{
     }
 
     logOut = () => {
-      ////////////////////////////////
-      //i reset the whole redux user props. when user logout
-      //see if this is nescessary or no ?
+      this.closeSideMenu();
+      this.props.resetLogin();
       this.props.resetUser();
-      /////////////////////////////
-
-
-
       localStorage.clear(); 
       this.props.resetItemsInCart()
-      //this.props.setUser();
-      //this.props.resetToken();
-      
-      
-      // ** this will reset the itemsInCart state of App.js ** //
-      //this.props.resetItemsInCart();
     }
 
     render(){  
-      console.log("Layout REnder >>>> login", this.props.state)
         let memberRewards;
         let login;
         let signUp;
         let user;
        
         if(this.props.login === true){
-            
             login = (
               <Link className={`nav-link text-white btn btn-sm mr-4 btn-deepSky`} onClick={()=>this.logOut()} to="/">Sign Out</Link>
             );
-
             memberRewards = (
               <Link className="nav-link text-white" to="/memberRewards">Member Zone</Link>
             );
-
             user = (
               <h5 className={`text-white mr-3 align-self-center`}>Hi, {this.props.firstName}!</h5>
             );
         }
         else if(this.props.login === false){
-
             signUp = (
                 <Link className={`btn btn-sm mr-4 btn-deepSky nav-link`} to="/createAccount">SIGN UP</Link>
             );
-
             login = (
               <Link className={`nav-link text-white`} to="/signIn">Log in</Link>
             );
-
             user = "";
         }
     
@@ -147,8 +129,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return{
-       //resetToken: () => dispatch({type: 'RESET'}),
-       //setUser: (user) => dispatch({type: 'SET-USER', value: user})
+       resetLogin: () => dispatch({type: "RESET_LOGIN"}),
        resetUser: () => dispatch({type: "RESET_USER"})
   }
 }

@@ -7,15 +7,12 @@ import {connect} from 'react-redux';
 class sideMenu extends Component{
 
     logOut = () => {
-        //localStorage.clear(); 
-        //this.props.closeSideMenu();
-        //this.props.setUser();
-       // this.props.resetToken();
+        localStorage.clear(); 
+        //from Layout.js
+        this.props.closeSideMenu();
+        this.props.resetItemsInCart();
         this.props.resetLogin();
-        
-
-        // ** this will reset the itemsInCart state of App.js ** //
-        //this.props.resetItemsInCart();
+        this.props.history.push('/'); 
     }
 
     render(){
@@ -24,16 +21,12 @@ class sideMenu extends Component{
         let signUp;
 
         if(this.props.login === true){
-            // ** enable this to reset the local database ** //
-            // ** localStorage.clear() ** //
             login = <a className="btn btn-sm mr-4 btn-primary text-white nav-link" onClick={()=>this.logOut()}>Sign Out</a>
         }
         else if(this.props.login === false){
-
             signUp = (
                 <Link className="btn btn-sm mr-4 btn-deepSky text-white nav-link d-inline" to="/createAccount">SIGN UP</Link>
             )
-
             login = <Link className="nav-link text-white mt-3 pl-0" to="/signIn">Log in</Link>
         }
 
@@ -67,8 +60,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-       // resetToken: () => dispatch({type: 'RESET'}),
-        //setUser: () => dispatch({type: 'SET-USER', value: undefined})
+        resetUser: () => dispatch({type: 'RESET_USER'}),
         resetLogin: () => dispatch({type: "RESET_LOGIN"})
     }
 }

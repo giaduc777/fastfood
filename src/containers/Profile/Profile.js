@@ -11,12 +11,10 @@ import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 class Profile extends Component{
 
     componentDidMount(){
-        console.log("from profile >>> did mount >>", this.props.userInfo)
-        this.getProfile()
+        //this.getProfile()
     }
 
-    
-
+    /*
     state = {
         firstName: '',
         lastName: '',
@@ -31,7 +29,7 @@ class Profile extends Component{
         this.setState({requestError: false})
     }
 
-    getProfile = async () => {
+    getProfile = () => {
         this.setState({
             firstName: this.props.userInfo.firstName,
             lastName: this.props.userInfo.lastName,
@@ -63,11 +61,15 @@ class Profile extends Component{
             this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
         }
         */
-    }
+    //}
+
+    
 
     render(){
         let Contents = null;
-        let requestError;
+
+        /*
+          let requestError;
 
         if(this.state.requestError){
             requestError = (
@@ -77,11 +79,12 @@ class Profile extends Component{
                 </div>
             )
         }
+        */
         
         if(localStorage.getItem('token') !== null){
             Contents = (
                 <div className={`${styles.Profile}`}>
-                    {requestError}
+                    {/*requestError*/}
                     <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                         <button className={`${styles.iconColor} navbar-toggler border`} type="button" data-toggle="collapse" data-target="#navbarNav">
                             <span className={"fa fa-bars"}></span>
@@ -107,11 +110,11 @@ class Profile extends Component{
                         <div className="col-10 col-sm-8 col-md-6 col-lg-4 bg-background m-auto container d-flex flex-column align-items-center">
                             <div className="title pt-4 pb-4">PROFILE</div>
                             <div className="d-flex flex-column">
-                                <div className={`${styles.description}`}>First Name:<span>{this.state.firstName}</span></div>
-                                <div className={`${styles.description}`}>Last Name:<span>{this.state.lastName}</span></div>
-                                <div className={`${styles.description}`}>Email:<span>{this.state.email}</span></div>
-                                <div className={`${styles.description}`}>Phone:<span>{this.state.phone}</span></div>
-                                <div className={`${styles.description} pb-4`}>Reward Points:<span>{this.state.rewardPoints}</span></div>
+                                <div className={`${styles.description}`}>First Name:<span>{this.props.userInfo.firstName}</span></div>
+                                <div className={`${styles.description}`}>Last Name:<span>{this.props.userInfo.lastName}</span></div>
+                                <div className={`${styles.description}`}>Email:<span>{this.props.userInfo.email}</span></div>
+                                <div className={`${styles.description}`}>Phone:<span>{this.props.userInfo.phone}</span></div>
+                                <div className={`${styles.description} pb-4`}>Reward Points:<span>{this.props.userInfo.rewardPoints}</span></div>
                             </div>
                         </div>
                     </div>
