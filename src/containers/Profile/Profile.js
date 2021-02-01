@@ -10,81 +10,12 @@ import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 
 class Profile extends Component{
 
-    componentDidMount(){
-        //this.getProfile()
-    }
-
-    /*
-    state = {
-        firstName: '',
-        lastName: '',
-        phone: '',
-        email: '',
-        rewardPoints: '',
-        requestError: false,
-        errorMessage: ''
-    }
-
-    resetRequestError = () => {
-        this.setState({requestError: false})
-    }
-
-    getProfile = () => {
-        this.setState({
-            firstName: this.props.userInfo.firstName,
-            lastName: this.props.userInfo.lastName,
-            phone: this.props.userInfo.phone,
-            email: this.props.userInfo.email,
-            rewardPoints: this.props.userInfo.rewardPoints
-        })
-        /*
-        let myURL;
-
-        if( process.env.NODE_ENV === 'production'){
-            myURL = ADDRESS + '/api/profile';
-        }
-        else {
-            myURL = '/api/profile';
-        }
-
-        const tempToken = localStorage.getItem("token");
-
-        try{
-            const profile = await Axios.post(myURL, {
-                token: tempToken
-            }); 
-
-            this.setState({...profile.data})
-        }
-         catch(err){
-            console.log("From catch block", err);
-            this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
-        }
-        */
-    //}
-
-    
-
     render(){
         let Contents = null;
 
-        /*
-          let requestError;
-
-        if(this.state.requestError){
-            requestError = (
-                <div className={`d-flex justify-content-center`}>
-                    <Backdrop />
-                    <RequestError resetRequestError={this.resetRequestError} errorMessage={this.state.errorMessage} />
-                </div>
-            )
-        }
-        */
-        
         if(localStorage.getItem('token') !== null){
             Contents = (
                 <div className={`${styles.Profile}`}>
-                    {/*requestError*/}
                     <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                         <button className={`${styles.iconColor} navbar-toggler border`} type="button" data-toggle="collapse" data-target="#navbarNav">
                             <span className={"fa fa-bars"}></span>

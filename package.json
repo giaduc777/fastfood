@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node index.js",
     "heroku-postbuild": "webpack",
-    "dev": "webpack-serve --live-reload",
+    "dev": "concurrently --kill-others \"npm run start\" \"npm run watch\"",
     "build": "webpack",
     "watch": "webpack --watch"
   },

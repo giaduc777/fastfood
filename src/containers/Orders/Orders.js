@@ -10,72 +10,7 @@ import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 
 class Orders extends Component{
 
-    componentDidMount(){
-        //console.log("from Orderssss Mount>>> ", typeof this.props.userInfo.orderHistory)
-        //this.retrieveOrders()
-    }
-
-    componentDidUpdate(){
-        //console.log("from Orderssss Update>>> ", typeof Object.values(this.props.userInfo.ordersHistory !== ""))
-        //console.log("from Orderssss Update>>> ", this.props.userInfo.orderHistory[0])
-        //this.loadOrders()
-    }
-
-    /*
-    state = {
-        orders: [],
-        requestError: false,
-        errorMessage: ""
-    }
-
-    resetRequestError = () => {
-        this.setState({requestError: false})
-    }
-   */
-
-    //retrieveOrders = async () => {
-        //console.log("from Orderssss >>> ", this.props.userInfo.orderHistory)
-            //this.setState({orders: this.props.userInfo.orderHistory})
-        /*
-        let myURL;
-
-        if( process.env.NODE_ENV === 'production'){
-            myURL = ADDRESS + '/api/orders';
-        }
-        else {
-            myURL = '/api/orders';
-        }
-        
-        let tempOrders = []
-        const tempToken = localStorage.getItem("token");
-
-        try{
-            const result = await Axios.post(myURL, {
-                token: tempToken
-            }); 
-            
-            for(let i=0; i < result.data.orderList.length; i++){
-                tempOrders.push(result.data.orderList[i])
-            }
-    
-            this.setState({orders: tempOrders})
-        }
-         catch(err){
-            console.log("From catch block", err);
-            this.setState({requestError: true, errorMessage: "Oops! there might be a connection error. Please try again."});
-        }
-        */
-    //}
-
     loadOrders = (orders) => {
-            /*
-             orders.map((result, index) => {
-                result.order.map((v) => {
-                    console.log("inside map>>>>", v.name)
-                })
-            });
-            */
-            
         
         return orders.map( (result, resultIndex) => {
                 let itemName = result.order.map( (value) => {
@@ -102,20 +37,7 @@ class Orders extends Component{
 
         let Contents = null;
         let ordersHistory;
-        //let requestError;
-
-        /*
-        if(this.state.requestError){
-            requestError = (
-                <div className={`d-flex justify-content-center`}>
-                    <Backdrop />
-                    <RequestError resetRequestError={this.resetRequestError} errorMessage={this.state.errorMessage} />
-                </div>
-            )
-        }
-       */
        
-       console.log("polo", this.props.userInfo.orderHistory)
         if(this.props.userInfo.orderHistory === "" | this.props.userInfo.orderHistory.length === 0){
             ordersHistory = (
                 <div className={`${styles.description}`}>You have no order history</div>
@@ -127,42 +49,15 @@ class Orders extends Component{
                 let orders = Object.values(this.props.userInfo.orderHistory);
             
                 ordersHistory = (
-                <div>
-                    {this.loadOrders(orders)}
-                </div>
+                    <div>
+                        {this.loadOrders(orders)}
+                    </div>
                 ) 
-
-                /*
-
-                    console.log("Timepolo>>>", orders)
-                let orderList=[];
-                let subTotal;
-                let orderTime;
-                //access each order
-                for(let i = 0; i < orders.length; i++){
-                    let tempOrderList=[];
-                    orderTime = orders[i].time;
-                    subTotal = orders[i].subTotal;
-                    
-                    //access all items name of each order
-                    for(let x=0; x < orders[i].order.length; x++){
-                        tempOrderList.push(orders[i].order[x].name)
-                    }
-                    tempOrderList.push(orderTime,subTotal)
-                    orderList.push(tempOrderList)
-                    //console.log("Time>>>", orderTime)
-                    //console.log("sub Total>>>", subTotal)
-                    
-                }
-
-                */
         }
         
         if(localStorage.getItem('token') !== null){
-
             Contents = (
                 <div className={`${styles.Orders}`}>
-                    {/*requestError*/}
                     <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                         <button className={`${styles.iconColor} navbar-toggler border`} type="button" data-toggle="collapse" data-target="#navbarNav">
                             <span className={"fa fa-bars"}></span>

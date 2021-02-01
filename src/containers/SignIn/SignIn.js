@@ -17,7 +17,7 @@ class SignIn extends Component{
         Password: '',
         requestError: false,
         errorMessage: '',
-        spinningCircle: false
+        spinningCircleState: false
     }
 
     resetRequestError = () => {
@@ -33,7 +33,7 @@ class SignIn extends Component{
 
     handleSubmit = async (e) => {
         e.preventDefault()
-        this.setState({spinningCircle: true})
+        this.setState({spinningCircleState: true})
 
         let myURL;
 
@@ -54,17 +54,14 @@ class SignIn extends Component{
                 this.setState({
                     requestError: true, 
                     errorMessage: "Sorry, invalid login !",
-                    spinningCircle: false
+                    spinningCircleState: false
                 });
              }
              else{
-                console.log("USER_DATA SIGN-In >>> ", user.data)
-                //this.props.setToken(user.data.token);
-                //this.props.setUser(user.data.firstName);
                 this.props.initUser(user.data);
-                // ** set login state to true in App() ** //
-                //this.props.login();
                 localStorage.setItem("token", user.data.token)
+                this.props.login()
+                this.setState({spinningCircleState: false})
                 this.props.history.push('/');
              }
           }
@@ -74,11 +71,10 @@ class SignIn extends Component{
           }
       };
     render(){
-        //console.log("RENDER >>> ", this.props.polo)
         let requestError;
         let spinningCircle;
 
-        if(this.state.spinningCircle){
+        if(this.state.spinningCircleState){
             spinningCircle = (<SpinningCircle />)
         }
 
@@ -134,17 +130,15 @@ class SignIn extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        //setToken: (newToken) => dispatch({type: 'SET-TOKEN', value: newToken}),
-        //setUser: (user) => dispatch({type: 'SET-USER', value: user}),
-        initUser: (payload) => dispatch({type: 'INIT_USER', payload: payload}),
-        login: () => dispatch({type: 'LOGIN', value: true})
+        initUser: (payload) => dispatch({type: "INIT_USER", payload: payload}),
+        login: () => dispatch({type: "SET_LOGIN", value: true})
     }
 }
 
 const mapStateToProps = state =>{
     return {
         //token: state.token,
-        polo: state
+        //polo: state
     }
 }
 

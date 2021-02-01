@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import resetItemsInCart from '../../Functions/resetItemsInCart';
 
 class placeYourOrder extends Component{
 
     componentDidMount(){
-        this.setState({subTotal: this.props.subTotal})
-        this.props.resetItemsInCart();
-        localStorage.removeItem('items')
+        this.setState({subTotal: this.props.getSubtotal})
+        const reduxItemsReset = resetItemsInCart(this.props.reduxMenuList.menuList);
+        this.props.resetReduxCart(reduxItemsReset);
+        localStorage.removeItem('items');
     }
 
     state = {
@@ -36,4 +39,16 @@ class placeYourOrder extends Component{
     }
 };
 
-export default placeYourOrder;
+const mapStateToProps = state => {
+    return {
+      reduxMenuList: state.reduxMenuList
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return{
+         resetReduxCart: (reduxItemsReset) => dispatch({type: "RESET_MENU_LIST", payload: reduxItemsReset})
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(placeYourOrder);

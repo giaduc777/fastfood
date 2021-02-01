@@ -8,7 +8,7 @@ const GuessSchema = new Schema({
         email: String,
         phone: String,
         token: String,
-        login: String,
+        subTotal: Number,
         items: {}
     }
 });

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-//import classes from './index.module.scss';
 import {BrowserRouter} from 'react-router-dom';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
@@ -12,11 +11,10 @@ import './main.scss';
 
 const store = createStore(reducer)
 
-
 const app = (
     <Provider store={store}>
         <BrowserRouter>
-            <App></App>
+            <App />
             <MenuBackground />
        </BrowserRouter>
     </Provider>

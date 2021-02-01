@@ -7,11 +7,13 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import RequestError from '../../components/Alerts/RequestError/RequestError';
 import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
-import {RouteComponentProps} from "react-router"
+import {RouteComponentProps} from "react-router";
+import SpinningCircle from '../../components/SpinningCircle/SpinningCircle';
 
 interface Props {
     firstName: string
     initUser: (user: any) => void;
+    setLogin: () => void;
 }
 
 type myState = {
@@ -22,7 +24,8 @@ type myState = {
     password: string,
     button1: boolean,
     requestError: boolean,
-    errorMessage: string
+    errorMessage: string,
+    spinningCircle: boolean
 }
 
 const inputName = {
@@ -58,7 +61,8 @@ class CreateAccount extends React.Component<Props & RouteComponentProps> {
         password: '',
         button1: false,
         requestError: false,
-        errorMessage: ""
+        errorMessage: "",
+        spinningCircle: false
     }
 
     resetRequestError = ():void => {
@@ -74,7 +78,7 @@ class CreateAccount extends React.Component<Props & RouteComponentProps> {
 
     handleSubmit = async (e: React.FormEvent<HTMLFormElement>):Promise<void> => {
         e.preventDefault()
-
+        this.setState({spinningCircle: true})
         let myURL: string;
 
         if( process.env.NODE_ENV === 'production'){
@@ -95,12 +99,15 @@ class CreateAccount extends React.Component<Props & RouteComponentProps> {
                 rewardPoints: 0
             });
 
+            this.setState({spinningCircle: false});
+            
             if(user.data.token === ""){
                 this.setState({requestError: true, errorMessage: "Sorry, this Email address is already taken!"});
             }
             else if(user.data.emailStatus){
                 localStorage.setItem("token", user.data.token);
                 this.props.initUser(user.data);
+                this.props.setLogin()
                 this.props.history.push('/');
             }
             else if(!user.data.emailStatus){
@@ -115,6 +122,11 @@ class CreateAccount extends React.Component<Props & RouteComponentProps> {
 
     render(){
         let requestError;
+        let spinningCircle;
+
+        if(this.state.spinningCircle){
+            spinningCircle = (<SpinningCircle />)
+        }
 
         if(this.state.requestError){
             requestError = (
@@ -127,6 +139,7 @@ class CreateAccount extends React.Component<Props & RouteComponentProps> {
 
         return(
             <div className="container bg-background col-md-10 col-lg-8 col-xl-6 d-flex flex-column p-0 mt-5 genericClasses">
+                {spinningCircle}
                 {requestError}
                 <div className="align-self-end"><Link to="/"><span className="badge  x-button">X</span></Link></div>
                 <div className="CreateAccount p-5">
@@ -168,7 +181,8 @@ interface Interfacestate {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        initUser: (payload: any) => dispatch({type: 'INIT_USER', payload: payload}),
+        initUser: (payload: any) => dispatch({type: "INIT_USER", payload: payload}),
+        setLogin: () => dispatch({type: "SET_LOGIN"})
     }
 }
 

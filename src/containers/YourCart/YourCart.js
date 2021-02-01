@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getOrders } from '../../Functions/getOrders';
 import styles from './YourCart.module.scss';
 
 class YourCart extends Component{
     render(){
-
         let items = [];
         let Cart;
-        let orders = this.props.getOrders();
+        let orders = getOrders();
 
         let checkOut = (
              <div className={`${styles.YourCart_checkOut}`}>
@@ -17,8 +17,8 @@ class YourCart extends Component{
              </div>
         )
 
+        
         if(orders !== undefined && Object.keys(orders).length !== 0){
-            if(Object.keys(orders).length !== 0){
                 for(let i=0; i < Object.keys(orders).length; i++){
                     items.push(
                         <li key={i} className="container li d-flex flex-column align-items-center">  
@@ -47,8 +47,7 @@ class YourCart extends Component{
                         </li>
                     );
                 };
-            }
-
+          
             if(!this.props.login){
                 checkOut = (
                     <div className={`${styles.YourCart_checkOut}`}>

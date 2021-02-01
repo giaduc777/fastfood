@@ -47,7 +47,7 @@
       "src/**/*.d.ts",
       "node_modules/axios",
       "node_modules/redux-thunk"
-    ]
+, "UnusedClasses/App.js"    ]
   }
   
 

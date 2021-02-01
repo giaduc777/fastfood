@@ -3,20 +3,22 @@ import classes from './SideMenu.module.scss';
 import {Link} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
+import resetItemsInCart from '../../Functions/resetItemsInCart';
 
 class sideMenu extends Component{
 
     logOut = () => {
         localStorage.clear(); 
-        //from Layout.js
-        this.props.closeSideMenu();
-        this.props.resetItemsInCart();
+        const reduxItemsReset = resetItemsInCart(this.props.reduxMenuList.menuList);
+        this.props.resetReduxCart(reduxItemsReset);
         this.props.resetLogin();
+
+        // ** from Layout.js ** //
+        this.props.closeSideMenu();
         this.props.history.push('/'); 
     }
 
     render(){
-        
         let login;
         let signUp;
 
@@ -54,14 +56,16 @@ class sideMenu extends Component{
 
 const mapStateToProps = state => {
     return{
-        login: state.login
+        login: state.login,
+        reduxMenuList: state.reduxMenuList
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return{
         resetUser: () => dispatch({type: 'RESET_USER'}),
-        resetLogin: () => dispatch({type: "RESET_LOGIN"})
+        resetLogin: () => dispatch({type: "RESET_LOGIN"}),
+        resetReduxCart: (reduxItemsReset) => dispatch({type: "RESET_MENU_LIST", payload: reduxItemsReset})
     }
 }
 

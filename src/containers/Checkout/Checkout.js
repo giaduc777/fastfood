@@ -133,7 +133,7 @@ class Checkout extends Component{
                     </div>
                     
                     <div className={`${styles.button}`}>
-                        <Link onClick={() => this.props.userInfo(this.state)} className={`${styles.reviewOrder}`} to='/reviewOrder'>Review Order</Link>
+                        <Link onClick={() => this.props.initUser(this.state)} className={`${styles.reviewOrder}`} to='/reviewOrder'>Review Order</Link>
                     </div>
                 </div>
         );
@@ -143,7 +143,7 @@ class Checkout extends Component{
 const mapDispatchToProps = dispatch => {
     return (
         {
-            userInfo: (userInfo) => dispatch({type: 'USER-INFO', value: userInfo})
+            initUser: (payload) => dispatch({type: 'INIT_USER', payload: payload})
         }
     )
 }

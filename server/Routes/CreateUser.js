@@ -27,7 +27,6 @@ module.exports = (app) =>{
                 phone: user.phone,
                 rewardPoints: user.rewardPoints,
                 token: status.token,
-                login: true
             })
         }
         catch(err){

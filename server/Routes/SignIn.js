@@ -4,15 +4,16 @@ const getOrderHistory = require('./GetOrderHistory');
 
 module.exports = (app) => {
     app.post('/api/signIn', async(req,res) => {
+        
         try{
            const user = await User.findOne({'email': req.body.email});
-       
+           
            if(user === null){
                res.send(false)
            }
            else {
                const match = await bcrypt.compare(req.body.password, user.password);
-    
+            
                if(!match){
                     res.send(false);
                }

@@ -5,15 +5,17 @@ import Axios from 'axios';
 import {ADDRESS} from '../../herokuProxy';
 import {withRouter} from 'react-router-dom';
 import styles from './ReviewOrder.module.scss';
+import { getOrders } from '../../Functions/getOrders';
 import SpinningCircle from '../../components/SpinningCircle/SpinningCircle';
 
 class ReviewOrder extends Component{
 
     state = {
-        spinningCircle: false
+        spinningCircleState: false
     }
 
     placeOrder = async () => {
+        this.setState({spinningCircleState: true})
         let myURL;
 
         if( process.env.NODE_ENV === 'production'){
@@ -23,25 +25,22 @@ class ReviewOrder extends Component{
             myURL = '/api/placeOrder';
         }
         
-        this.setState({spinningCircle: true})
-        
         try{
-            //send current order to Mongo-Atlas
-            await Axios.post(myURL, {
+            // ** send current order to Mongo-Atlas ** //
+            const status = await Axios.post(myURL, {
                 firstName: this.props.userInfo.firstName,
                 lastName: this.props.userInfo.lastName,
                 email: this.props.userInfo.email,
                 phone: this.props.userInfo.phone,
-                token: this.props.userInfo.token,
-                login: this.props.userInfo.login,
-                items: this.props.getOrders(),
+                token: localStorage.getItem("token"),
+                items: getOrders(),
                 rewardPoints: Math.round(this.props.getSubtotal()),
                 subTotal: this.props.getSubtotal()
             }); 
             
-            // When order is place and user is login, retrieve
-            // the latest order info. from  mongo atlas, and 
-            // put it in redux.
+            // ** When order is place and user is login, retrieve ** //
+            // ** the latest order info. from  mongo atlas, and ** //
+            // ** put it in redux. ** //
             if(localStorage.getItem("token")){
                try{
                     let myURL;
@@ -53,7 +52,7 @@ class ReviewOrder extends Component{
                         myURL = '/api/user';
                     }
                 
-                    //if not true, thats mean no token is stored in LS. User not login. //
+                    // ** if user is not true, that's mean no token is stored in LS. User not login. ** //
                     let user = null;
                     user = await Axios.post(myURL, {token: localStorage.getItem("token")});
                     
@@ -63,23 +62,23 @@ class ReviewOrder extends Component{
                     
                 }
                 catch(err){
-                    console.log("from ReviewOrder line: 66", err)
+                    console.log("From ReviewOrder.placeOder(): ", err)
                 }
             }
-            this.setState({spinningCircle: false})
+            this.setState({spinningCircleState: false})
             this.props.history.push('/placeYourOrder')
         }
          catch(err){
-            console.log("From ReviewOrder.placeOder()", err);
+            console.log("From ReviewOrder.placeOder(): ", err);
         }
     }
     
     render(){
         let items = [];
-        let orders = this.props.getOrders();
+        let orders = getOrders();
         let spinningCircle;
 
-        if(this.state.spinningCircle){
+        if(this.state.spinningCircleState){
             spinningCircle = (<SpinningCircle />)
         }
     
@@ -167,7 +166,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-         setLoading: (value) => dispatch({type: 'SET-LOADING', value: value}),
+         setLoading: (value) => dispatch({type: 'SET_LOADING', value: value}),
          initUser: (payload) => dispatch({type: 'INIT_USER', payload: payload}),
     }
   }

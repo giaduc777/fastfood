@@ -1,3 +1,5 @@
+import {MenuList} from './MenuList';
+
 const initialState = {
     email: "",
     firstName: "",
@@ -5,17 +7,14 @@ const initialState = {
     orderHistory: "",
     phone: "",
     rewardPoints: "",
-
-    /////////////////
     login: false,
-    loading: false
+    totalQuantity: 0,
+    reduxMenuList: MenuList.menuList
 }
 
 const reducer = (state = initialState, action) => {
-    //console.log("from Reducer >>> state", state)
 
     if(action.type === "INIT_USER"){
-        //console.log("action >>> 'INIT_USER'", action.payload.token)
         return {
             ...state,
             email: action.payload.email,
@@ -24,8 +23,18 @@ const reducer = (state = initialState, action) => {
             orderHistory: action.payload.orderHistory,
             phone: action.payload.phone,
             rewardPoints: action.payload.rewardPoints,
-            token: action.payload.token,
-            login: true
+        }
+    }
+    else if(action.type === "RESET_MENU_LIST"){
+        return {
+            ...state,
+            reduxMenuList: action.payload.itemsReset
+        }
+    }
+    else if(action.type === "SET_MENU_LIST"){
+        return {
+            ...state,
+            reduxMenuList: action.payload
         }
     }
     else if(action.type === "SET_LOGIN"){
@@ -53,53 +62,22 @@ const reducer = (state = initialState, action) => {
             login: false
         }
     }
-    else if(action.type === "SET_LOADING"){
-        return {
-            ...state,
-            loading: action.value
-        }
-    }
     else if(action.type === "SET_USER"){
-        //console.log("set user......", action.value)
         return{
             ...state,
             firstName: action.value
         }
     }
+    else if(action.type === "SET_TOTAL_QUANTITY"){
+        console.log("from polo reducer>>>>", action.value)
+        return{
+            ...state,
+            totalQuantity: action.value
+        }
+    }
+
 
     return state;
-
-      /*if(action.type === 'SET-TOKEN'){
-          return{
-              ...state,
-              token: action.value
-          }
-        }
-        if(action.type === 'RESET'){
-                return {
-                    ...state,
-                    token: null
-                }
-        }
-        
-        else if(action.type === 'SET-USER'){
-            return{
-                ...state,
-                user: action.value
-            }
-        }
-        
-        else if(action.type === 'USER-INFO'){
-            return {
-                ...state,
-                firstName: action.value.firstName,
-                lastName: action.value.lastName,
-                email: action.value.email,
-                phone: action.value.phone
-            }
-        }
-        
-        */
 }
 
 export default reducer;

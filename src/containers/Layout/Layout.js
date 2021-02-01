@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Navigation from '../../components/Navigation/Navigation';
 import {Link} from 'react-router-dom';
-import{connect} from 'react-redux';
+import {connect} from 'react-redux';
 import classes from './Layout.module.scss';
 
 import Main from '../../components/Main/Main';
@@ -10,6 +10,7 @@ import SideMenu from '../SideMenu/SideMenu';
 import Backdrop from '../../components/Backdrop/Backdrop';
 import Footer from '../../components/Footer/Footer';
 import SlideItemContainer from '../../components/SlideItemContainer/SlideItemContainer';
+import resetItemsInCart from '../../Functions/resetItemsInCart';
 
 class Layout extends Component{
 
@@ -19,7 +20,7 @@ class Layout extends Component{
     }
 
     openSideMenu = () => {
-      this.setState({sideMenu: <SideMenu resetItemsInCart={this.props.resetItemsInCart} login={this.props.state.login} logout={this.props.logout} closeSideMenu={() => this.closeSideMenu()}/>, 
+      this.setState({sideMenu: <SideMenu closeSideMenu={() => this.closeSideMenu()}/>, 
       backdrop: <Backdrop closeSideMenu={() => this.closeSideMenu()} />})
     }
 
@@ -32,7 +33,9 @@ class Layout extends Component{
       this.props.resetLogin();
       this.props.resetUser();
       localStorage.clear(); 
-      this.props.resetItemsInCart()
+
+      const reduxItemsReset = resetItemsInCart(this.props.reduxMenuList.menuList);
+      this.props.resetReduxCart(reduxItemsReset);
     }
 
     render(){  
@@ -75,7 +78,7 @@ class Layout extends Component{
                                 {name: "Root beer float $1.25", id: "Root beer float"} 
                               ]
       
-        return (      
+        return (      console.log("maddddd XXXXX>>", this.props.totalQuantity),
                   <div className={`${classes.Layout}`}>
                     {this.state.sideMenu}
                     {this.state.backdrop}
@@ -91,7 +94,7 @@ class Layout extends Component{
                                     </svg>
                                   </div>
                                   <div className={`${classes.cartBubble}`}>
-                                      <span className={`badge badge-warning border rounded-pill`}>{this.props.getTotalQuantity()}</span>
+                                      <span className={`badge badge-warning border rounded-pill`}>{this.props.totalQuantity}</span>
                                   </div>
                                 </Link>
                               </div>
@@ -123,14 +126,17 @@ class Layout extends Component{
 const mapStateToProps = state => {
    return {
      firstName: state.firstName,
-     login: state.login
+     login: state.login,
+     reduxMenuList: state.reduxMenuList,
+     totalQuantity: state.totalQuantity
    }
 }
 
 const mapDispatchToProps = dispatch => {
   return{
        resetLogin: () => dispatch({type: "RESET_LOGIN"}),
-       resetUser: () => dispatch({type: "RESET_USER"})
+       resetUser: () => dispatch({type: "RESET_USER"}),
+       resetReduxCart: (reduxItemsReset) => dispatch({type: "RESET_MENU_LIST", payload: reduxItemsReset})
   }
 }
 
