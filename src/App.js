@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 import {ADDRESS} from './herokuProxy';
 
 import Layout from './containers/Layout/Layout';
-import YourCart from './containers/YourCart/YourCart';
+import { YourCart } from './containers/YourCart/YourCart';
 import Checkout from './containers/Checkout/Checkout';
 import AboutUs from './containers/AboutUs/AboutUs';
 import SignIn from './containers/SignIn/SignIn';

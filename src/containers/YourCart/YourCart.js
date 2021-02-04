@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getOrders } from '../../Functions/getOrders';
@@ -6,45 +7,51 @@ import { decrease } from '../../Functions/decrease';
 import { increase } from '../../Functions/increase';
 import { getTotalQuantity } from '../../Functions/getTotalQuantity';
 import { removeItem } from '../../Functions/removeItem';
-import { getTotalPrice } from '../../Functions/getTotalPrice';
-import { getTaxes } from '../../Functions/getTaxes';
-import { getSubtotal } from '../../Functions/getSubtotal';
 import styles from './YourCart.module.scss';
+import Top from './Top/Top';
+import Bottom from './Bottom/Bottom';
 
-class YourCart extends Component {
+export const YourCart = () => {
+    
+        const dispatch = useDispatch();
+        const state = useSelector(state => state);
+        
+        let reduxLogin = state.login;
+        let reduxTotalQuantity = state.totalQuantity;
+        let reduxMenuList = state.menuList
    
-    callDecrease = (item) => {
-       const tempItemsInCart = decrease(item, this.props.reduxMenuList);
+        const callDecrease = (item) => {
+            const tempItemsInCart = decrease(item, reduxMenuList);
 
-       if(tempItemsInCart){
-            this.props.setMenuList(tempItemsInCart);
+            if(tempItemsInCart){
+                dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
 
-            if(this.props.reduxTotalQuantity > 1){
-                this.props.setTotalQuantity(this.props.reduxTotalQuantity - 1);
+                if(reduxTotalQuantity > 1){
+                    dispatch({type: "SET_TOTAL_QUANTITY", value: reduxTotalQuantity - 1});
+                }
             }
-        }
-    };
+        };
 
-    callIncrease = (item) => {
-        const tempItemsInCart = increase(item, this.props.reduxMenuList);
+        const callIncrease = (item) => {
+            console.log("call inc.....", item)
+            const tempItemsInCart = increase(item, reduxMenuList);
 
-        if(tempItemsInCart){
-            this.props.setMenuList(tempItemsInCart);
-            this.props.setTotalQuantity(this.props.reduxTotalQuantity + 1);
-        }
-    };
+            if(tempItemsInCart){
+                dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
+                dispatch({type: "SET_TOTAL_QUANTITY", value: (reduxTotalQuantity + 1)});
+            }
+        };
 
-    callRemoveItem = (item) => {
-        const tempItemsInCart = removeItem(item, this.props.reduxMenuList);
+        const callRemoveItem = (item) => {
+            const tempItemsInCart = removeItem(item, reduxMenuList);
 
-        if(tempItemsInCart){
-            let totalQuantity = getTotalQuantity(tempItemsInCart);
-            this.props.setTotalQuantity(totalQuantity);
-            this.props.setMenuList(tempItemsInCart);
-        }
-    };
+            if(tempItemsInCart){
+                let totalQuantity = getTotalQuantity(tempItemsInCart);
+                dispatch({type: "SET_TOTAL_QUANTITY", value: totalQuantity});
+                dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
+            }
+        };
 
-    render(){
         let items = [];
         let Cart;
         let orders = getOrders();
@@ -59,34 +66,14 @@ class YourCart extends Component {
         if(orders !== undefined && Object.keys(orders).length !== 0){
                 for(let i=0; i < Object.keys(orders).length; i++){
                     items.push(
-                        <li key={i} className="container li d-flex flex-column align-items-center">  
-                            <div className="col-md-7 col-lg-6 col-xl-5 mb-4">
-                                <hr></hr>
-                                <div className={`${styles.YourCart_topContainer} flex-column flex-sm-row`}>
-                                    <img className={`${styles.image}`} src={orders[i].picture} alt="icon_picture"></img>
-                                    <div className={`${styles.nameAndPrice} col-12 col-sm-9 w-100`}>
-                                        <div>{orders[i].name}</div>
-                                        <div>${orders[i].price}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-7 col-lg-6 col-xl-5 mb-4 row">
-                                <div className="d-flex col-sm-6 align-items-center p-0 justify-content-center mb-2 mb-sm-0">
-                                    <div className="mr-3">Quantity: </div>
-                                    <div className={`${styles.YourCart_counterBox}`}><span className={`badge badge-light ${styles.box_size}`}>{orders[i].quantity}</span></div>
-                                </div>
-                                <div className="d-flex col-sm-6 align-items-center justify-content-center">
-                                    <div className={`${styles.YourCart_counterBox} pr-3`} onClick={() => this.callDecrease(orders[i].name)}><span className={`badge badge-light ${styles.box_size}`}>-</span></div>
-                                    <div className={`${styles.YourCart_counterBox}`} onClick={() => this.callIncrease(orders[i].name)}><span className={`badge badge-light ${styles.box_size}`}>+</span></div>
-                                    <div className={`${styles.YourCart_counterBox} pl-3`} onClick={() => this.callRemoveItem(orders[i].name)}><span className="badge badge-light">Remove</span></div>
-                                </div>
-                            </div>
-                           
-                        </li>
+                        <Top key={i} orders={orders[i]} 
+                             callDecrease={() => callDecrease(orders[i].name)} 
+                             callIncrease={() => callIncrease(orders[i].name)} 
+                             callRemoveItem={() => callRemoveItem(orders[i].name)} />
                     );
                 };
           
-            if(!this.props.reduxLogin){
+            if(!reduxLogin){
                 checkOut = (
                     <div className={`${styles.YourCart_checkOut}`}>
                         <Link className={`${styles.pillButton}`} to='/'><span className="badge badge-info">Go Back</span></Link>
@@ -97,22 +84,10 @@ class YourCart extends Component {
             }
 
             Cart = (
-                <div>
-                    {items}
-                    <div>
-                        <hr></hr>
-                        <div>{checkOut}</div>
-                        <div className="col-sm-8 col-md-7 col-lg-4 m-auto">
-                            <div className="border pb-3 mt-3 mb-3">
-                                <h3 className="p-2">Total in cart: {this.props.reduxTotalQuantity}</h3>
-                                <div className="d-flex justify-content-between pl-2 pr-2"><h6>Total:</h6><h6>{getTotalPrice(this.props.reduxMenuList)}</h6></div>
-                                <div className="d-flex justify-content-between pl-2 pr-2"><h6>Tax:</h6><h6>{getTaxes(this.props.reduxMenuList)}</h6></div>
-                                <div className="d-flex justify-content-between pl-2 pr-2"><h6>Subtotal:</h6><h6>{getSubtotal(this.props.reduxMenuList)}</h6></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
+                <Bottom items={items} reduxTotalQuantity={reduxTotalQuantity} reduxMenuList={reduxMenuList} >
+                    {checkOut}
+                </Bottom>
+            )
         }
         else{
             Cart = (
@@ -131,25 +106,7 @@ class YourCart extends Component {
                 </div>
             </div>
         );
-    };
 };
-
-const mapStateToProps = state => {
-    return {
-        reduxLogin: state.login,
-        reduxTotalQuantity: state.totalQuantity,
-        reduxMenuList: state.menuList
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return{
-         setMenuList: (tempItemsInCart) => dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart}),
-         setTotalQuantity: (quantity) => dispatch({type: "SET_TOTAL_QUANTITY", value: quantity}),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(YourCart);
 
 
  
