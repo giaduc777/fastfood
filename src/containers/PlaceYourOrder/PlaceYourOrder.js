@@ -1,19 +1,11 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import resetItemsInCart from '../../Functions/resetItemsInCart';
 
 class placeYourOrder extends Component{
 
     componentDidMount(){
-        this.setState({subTotal: this.props.getSubtotal})
-        const reduxItemsReset = resetItemsInCart(this.props.reduxMenuList.menuList);
-        this.props.resetReduxCart(reduxItemsReset);
         localStorage.removeItem('items');
-    }
-
-    state = {
-        subTotal: 0
     }
 
     render(){
@@ -23,7 +15,7 @@ class placeYourOrder extends Component{
                 <div className="p-4">
                     <div>Thank you, your order has been received, & will be ready for pick up in 30 min.</div>
                     <div>ORDER #: 77</div>
-                    <div>Subtotal: ${this.state.subTotal}</div>
+                    <div>Subtotal: ${this.props.reduxSubTotal}</div>
                     <hr></hr>
                     <div>
                         <h5>Pick up location:</h5>
@@ -41,14 +33,8 @@ class placeYourOrder extends Component{
 
 const mapStateToProps = state => {
     return {
-      reduxMenuList: state.reduxMenuList
+        reduxSubTotal: state.subTotal
     }
-};
+}
 
-const mapDispatchToProps = dispatch => {
-    return{
-         resetReduxCart: (reduxItemsReset) => dispatch({type: "RESET_MENU_LIST", payload: reduxItemsReset})
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(placeYourOrder);
+export default connect(mapStateToProps)(placeYourOrder);

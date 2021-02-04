@@ -33,9 +33,7 @@ class Layout extends Component{
       this.props.resetLogin();
       this.props.resetUser();
       localStorage.clear(); 
-
-      const reduxItemsReset = resetItemsInCart(this.props.reduxMenuList.menuList);
-      this.props.resetReduxCart(reduxItemsReset);
+      this.props.setTotalQuantity();
     }
 
     render(){  
@@ -44,7 +42,7 @@ class Layout extends Component{
         let signUp;
         let user;
        
-        if(this.props.login === true){
+        if(this.props.reduxLogin === true){
             login = (
               <Link className={`nav-link text-white btn btn-sm mr-4 btn-deepSky`} onClick={()=>this.logOut()} to="/">Sign Out</Link>
             );
@@ -52,10 +50,10 @@ class Layout extends Component{
               <Link className="nav-link text-white" to="/memberRewards">Member Zone</Link>
             );
             user = (
-              <h5 className={`text-white mr-3 align-self-center`}>Hi, {this.props.firstName}!</h5>
+              <h5 className={`text-white mr-3 align-self-center`}>Hi, {this.props.reduxFirstName}!</h5>
             );
         }
-        else if(this.props.login === false){
+        else if(this.props.reduxLogin === false){
             signUp = (
                 <Link className={`btn btn-sm mr-4 btn-deepSky nav-link`} to="/createAccount">SIGN UP</Link>
             );
@@ -78,7 +76,7 @@ class Layout extends Component{
                                 {name: "Root beer float $1.25", id: "Root beer float"} 
                               ]
       
-        return (      console.log("maddddd XXXXX>>", this.props.totalQuantity),
+        return (      
                   <div className={`${classes.Layout}`}>
                     {this.state.sideMenu}
                     {this.state.backdrop}
@@ -94,7 +92,7 @@ class Layout extends Component{
                                     </svg>
                                   </div>
                                   <div className={`${classes.cartBubble}`}>
-                                      <span className={`badge badge-warning border rounded-pill`}>{this.props.totalQuantity}</span>
+                                      <span className={`badge badge-warning border rounded-pill`}>{this.props.reduxTotalQuantity}</span>
                                   </div>
                                 </Link>
                               </div>
@@ -115,8 +113,8 @@ class Layout extends Component{
                           </nav>
                     </Navigation>
                     <Main />
-                    <SlideItemContainer addToCart={this.props.addToCart}/>
-                    <Menus menuDescription={menuDescription} add={this.props.add} />
+                    <SlideItemContainer />
+                    <Menus menuDescription={menuDescription} />
                     <Footer />
             </div>
         )  
@@ -125,10 +123,10 @@ class Layout extends Component{
 
 const mapStateToProps = state => {
    return {
-     firstName: state.firstName,
-     login: state.login,
-     reduxMenuList: state.reduxMenuList,
-     totalQuantity: state.totalQuantity
+     reduxFirstName: state.firstName,
+     reduxLogin: state.login,
+     reduxMenuList: state.menuList,
+     reduxTotalQuantity: state.totalQuantity
    }
 }
 
@@ -136,7 +134,7 @@ const mapDispatchToProps = dispatch => {
   return{
        resetLogin: () => dispatch({type: "RESET_LOGIN"}),
        resetUser: () => dispatch({type: "RESET_USER"}),
-       resetReduxCart: (reduxItemsReset) => dispatch({type: "RESET_MENU_LIST", payload: reduxItemsReset})
+       setTotalQuantity: () => dispatch({type: "SET_TOTAL_QUANTITY", value: 0}),
   }
 }
 

@@ -1,4 +1,5 @@
-const resetItemsInCart = (menuList) => {
+
+export const resetItemsInCart = (menuList) => {
     let tempItemsInCart = menuList;
   
     for(let i=0; i < tempItemsInCart.length; i++){

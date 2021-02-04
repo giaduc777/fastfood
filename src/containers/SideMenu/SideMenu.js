@@ -9,8 +9,8 @@ class sideMenu extends Component{
 
     logOut = () => {
         localStorage.clear(); 
-        const reduxItemsReset = resetItemsInCart(this.props.reduxMenuList.menuList);
-        this.props.resetReduxCart(reduxItemsReset);
+        const itemsReset = resetItemsInCart(this.props.reduxMenuList);
+        this.props.resetMenuList(itemsReset);
         this.props.resetLogin();
 
         // ** from Layout.js ** //
@@ -22,10 +22,10 @@ class sideMenu extends Component{
         let login;
         let signUp;
 
-        if(this.props.login === true){
+        if(this.props.reduxLogin === true){
             login = <a className="btn btn-sm mr-4 btn-primary text-white nav-link" onClick={()=>this.logOut()}>Sign Out</a>
         }
-        else if(this.props.login === false){
+        else if(this.props.reduxLogin === false){
             signUp = (
                 <Link className="btn btn-sm mr-4 btn-deepSky text-white nav-link d-inline" to="/createAccount">SIGN UP</Link>
             )
@@ -45,7 +45,7 @@ class sideMenu extends Component{
                         {signUp}
                         {login}
                         <Link className="nav-link text-white pl-0" to="/yourCart">Your Cart</Link>
-                        {this.props.login ? <Link className="nav-link text-white pl-0" to="/memberRewards">Member Zone</Link> : null}
+                        {this.props.reduxLogin ? <Link className="nav-link text-white pl-0" to="/memberRewards">Member Zone</Link> : null}
                         <Link className="nav-link text-white pl-0" to="/AboutUs">About Us</Link>
                     </ul>
                 </div>
@@ -56,8 +56,8 @@ class sideMenu extends Component{
 
 const mapStateToProps = state => {
     return{
-        login: state.login,
-        reduxMenuList: state.reduxMenuList
+        reduxLogin: state.login,
+        reduxMenuList: state.menuList
     }
 }
 
@@ -65,7 +65,7 @@ const mapDispatchToProps = dispatch => {
     return{
         resetUser: () => dispatch({type: 'RESET_USER'}),
         resetLogin: () => dispatch({type: "RESET_LOGIN"}),
-        resetReduxCart: (reduxItemsReset) => dispatch({type: "RESET_MENU_LIST", payload: reduxItemsReset})
+        resetMenuList: (itemsReset) => dispatch({type: "RESET_MENU_LIST", payload: itemsReset})
     }
 }
 

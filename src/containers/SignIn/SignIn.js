@@ -135,14 +135,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-const mapStateToProps = state =>{
-    return {
-        //token: state.token,
-        //polo: state
-    }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn));
+export default withRouter(connect(null, mapDispatchToProps)(SignIn));
 
 
 

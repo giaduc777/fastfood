@@ -6,6 +6,10 @@ import {ADDRESS} from '../../herokuProxy';
 import {withRouter} from 'react-router-dom';
 import styles from './ReviewOrder.module.scss';
 import { getOrders } from '../../Functions/getOrders';
+import { getTotalPrice } from '../../Functions/getTotalPrice';
+import { getTaxes } from '../../Functions/getTaxes';
+import { getSubtotal } from '../../Functions/getSubtotal';
+import { resetItemsInCart } from '../../Functions/resetItemsInCart';
 import SpinningCircle from '../../components/SpinningCircle/SpinningCircle';
 
 class ReviewOrder extends Component{
@@ -28,14 +32,14 @@ class ReviewOrder extends Component{
         try{
             // ** send current order to Mongo-Atlas ** //
             const status = await Axios.post(myURL, {
-                firstName: this.props.userInfo.firstName,
-                lastName: this.props.userInfo.lastName,
-                email: this.props.userInfo.email,
-                phone: this.props.userInfo.phone,
+                firstName: this.props.reduxUserInfo.firstName,
+                lastName: this.props.reduxUserInfo.lastName,
+                email: this.props.reduxUserInfo.email,
+                phone: this.props.reduxUserInfo.phone,
                 token: localStorage.getItem("token"),
                 items: getOrders(),
-                rewardPoints: Math.round(this.props.getSubtotal()),
-                subTotal: this.props.getSubtotal()
+                rewardPoints: Math.round(getSubtotal(this.props.reduxMenuList)),
+                subTotal: getSubtotal(this.props.reduxMenuList)
             }); 
             
             // ** When order is place and user is login, retrieve ** //
@@ -65,8 +69,11 @@ class ReviewOrder extends Component{
                     console.log("From ReviewOrder.placeOder(): ", err)
                 }
             }
-            this.setState({spinningCircleState: false})
-            this.props.history.push('/placeYourOrder')
+            this.setState({spinningCircleState: false});
+            this.props.setTotalQuantity();
+            this.props.setSubtotal(getSubtotal(this.props.reduxMenuList));
+            this.props.setMenuList(resetItemsInCart(this.props.reduxMenuList))
+            this.props.history.push('/placeYourOrder');
         }
          catch(err){
             console.log("From ReviewOrder.placeOder(): ", err);
@@ -117,9 +124,9 @@ class ReviewOrder extends Component{
                         <hr></hr>
                         <div className="border p-3">
                             <h5>Contact & Payment Information</h5>
-                            <div >{this.props.userInfo.firstName} {this.props.userInfo.lastName}</div>
-                            <div className="text-break">{this.props.userInfo.email}</div>
-                            <div >{this.props.userInfo.phone}</div>
+                            <div >{this.props.reduxUserInfo.firstName} {this.props.reduxUserInfo.lastName}</div>
+                            <div className="text-break">{this.props.reduxUserInfo.email}</div>
+                            <div >{this.props.reduxUserInfo.phone}</div>
                             <div ><i>Payment Method</i>: CREDIT</div>
                             <a href="#">Edit Contact & Payment Information</a>
                         </div>
@@ -145,9 +152,9 @@ class ReviewOrder extends Component{
                                     <button onClick={() => this.placeOrder()} className={`${styles.placeYourOrder}`}>Place Your Order</button>
                                 </div>
                                 <div className="col-sm-7 col-lg-5 m-auto p-0">
-                                    <div className="d-flex justify-content-between h6"><div>Total:</div><span>{this.props.getTotalPrice()}</span></div>
-                                    <div className="d-flex justify-content-between h6">Tax:<span>{this.props.getTaxes()}</span></div>
-                                    <div className="d-flex justify-content-between h6">Subtotal:<span>{this.props.getSubtotal()}</span></div>
+                                    <div className="d-flex justify-content-between h6"><div>Total:</div><span>{getTotalPrice(this.props.reduxMenuList)}</span></div>
+                                    <div className="d-flex justify-content-between h6">Tax:<span>{getTaxes(this.props.reduxMenuList)}</span></div>
+                                    <div className="d-flex justify-content-between h6">Subtotal:<span>{getSubtotal(this.props.reduxMenuList)}</span></div>
                                 </div>
                             </div>
                         </div>
@@ -159,15 +166,17 @@ class ReviewOrder extends Component{
 
 const mapStateToProps = state => {
      return {
-         userInfo: state,
-         loading: state.loading
+         reduxUserInfo: state,
+         reduxMenuList: state.menuList,
      }
 }
 
 const mapDispatchToProps = dispatch => {
     return{
-         setLoading: (value) => dispatch({type: 'SET_LOADING', value: value}),
          initUser: (payload) => dispatch({type: 'INIT_USER', payload: payload}),
+         setTotalQuantity: () => dispatch({type: "SET_TOTAL_QUANTITY", value: 0}),
+         setSubtotal: (subTotal) => dispatch({type: "SET_SUBTOTAL", value: subTotal}),
+         setMenuList: (tempItemsInCart) => dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart}),
     }
   }
 

@@ -11,7 +11,6 @@ import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 class Orders extends Component{
 
     loadOrders = (orders) => {
-        
         return orders.map( (result, resultIndex) => {
                 let itemName = result.order.map( (value) => {
                     return value.name
@@ -38,15 +37,15 @@ class Orders extends Component{
         let Contents = null;
         let ordersHistory;
        
-        if(this.props.userInfo.orderHistory === "" | this.props.userInfo.orderHistory.length === 0){
+        if(this.props.reduxUserInfo.orderHistory === "" | this.props.reduxUserInfo.orderHistory.length === 0){
             ordersHistory = (
                 <div className={`${styles.description}`}>You have no order history</div>
             )
         }
         
-        else if(Object.keys(this.props.userInfo.orderHistory).length > 0){
+        else if(Object.keys(this.props.reduxUserInfo.orderHistory).length > 0){
             
-                let orders = Object.values(this.props.userInfo.orderHistory);
+                let orders = Object.values(this.props.reduxUserInfo.orderHistory);
             
                 ordersHistory = (
                     <div>
@@ -104,7 +103,7 @@ class Orders extends Component{
 
 const mapStateToProps = state => {
     return {
-        userInfo: state
+        reduxUserInfo: state
     }
 }
 

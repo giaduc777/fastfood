@@ -9,7 +9,7 @@ const deals = props => {
    let items=[];
   
    for(let i=0; i < props[name].length; i++){
-       items.push(<Deal deal={props[name][i]} addToCart={props.addToCart}
+       items.push(<Deal deal={props[name][i]} 
                    description={props[descriptionName][i]} key={i} id={i}></Deal>)
    }
     

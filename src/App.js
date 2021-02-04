@@ -22,16 +22,18 @@ import CreateAccount from './containers/CreateAccount/CreateAccount';
 
 import SpinningCircle from './components/SpinningCircle/SpinningCircle';
 import { getTotalQuantity } from './Functions/getTotalQuantity';
+import { getTotalPrice } from './Functions/getTotalPrice';
 
 const App = () => {
-  
   const dispatch = useDispatch()
-  let reduxMenuList = useSelector(state => state.reduxMenuList);
-  let menuList = reduxMenuList;
+  let state = useSelector(state => state);
+  let reduxMenuList = state.menuList;
+  let reduxTotalQuantity = state.totalQuantity;
 
+  // ** useEffect() only run once on component first mount ** //
   useEffect(async () => {
-   
     let myURL;
+
     try{
         if( process.env.NODE_ENV === 'production'){
             myURL = ADDRESS + '/api/user';
@@ -53,177 +55,47 @@ const App = () => {
           dispatch({type: "SET_LOGIN"})
 
           if(localStorage.getItem("items")){
-            const items = JSON.parse(localStorage.getItem("items"))
+            const items = JSON.parse(localStorage.getItem("items"));
+            let totalQuantity = getTotalQuantity(items);
+            dispatch({type: "SET_TOTAL_QUANTITY", value: totalQuantity});
             dispatch({type: "SET_MENU_LIST", payload: items});
           }
-    
       }
+      // ** user is a guess ** //
       else if(localStorage.getItem("items")){
-        const items = JSON.parse(localStorage.getItem("items"))
-        let totalQuantity = getTotalQuantity(items);
-        dispatch({type: "SET_TOTAL_QUANTITY", value: totalQuantity});
-        dispatch({type: "SET_MENU_LIST", payload: items});
+         const items = JSON.parse(localStorage.getItem("items"))
+         let totalQuantity = getTotalQuantity(items);
+         dispatch({type: "SET_TOTAL_QUANTITY", value: totalQuantity});
+         dispatch({type: "SET_MENU_LIST", payload: items});
       }
-      
     }
     catch(err){
       console.log("Error from Ap.js: ", err)
     }
-  },[]);
-
-
-  // ** For special menu ** //
-  const addToCart = (item) => {
-      for(let i=0; i < menuList.length; i++){
-          let tempItemsInCart = menuList;
-          let tempQuantity = tempItemsInCart[i][0].quantity;
-          
-          // ** check the selected menu item against the itemsInCart state ** // 
-          // ** Increase that item by one if match ** //
-          if(item.description[0] === tempItemsInCart[i][0].name){
-              tempQuantity += 1;
-              tempItemsInCart[i][0].quantity = tempQuantity;
-              dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
-              localStorage.setItem('items', JSON.stringify(tempItemsInCart))
-              break;
-          }
-      }
-      let totalQuantity = getTotalQuantity(menuList);
-      dispatch({type: "SET_TOTAL_QUANTITY", value: totalQuantity});
-
-  };
-
-  // ** For daily menu ** //
-  const add = (item) => {
-      for(let i=0; i < menuList.length; i++){
-        let tempItemsInCart = menuList;
-        let tempQuantity = tempItemsInCart[i][0].quantity;
-       
-        // ** check the selected menu item against the itemsInCart state ** //
-        // ** Increase that item by one if match ** //
-        if(item.id === tempItemsInCart[i][0].name){
-            tempQuantity += 1;
-            tempItemsInCart[i][0].quantity = tempQuantity;
-            dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
-            localStorage.setItem('items', JSON.stringify(tempItemsInCart))
-            break;
-        }
-    }
-  };
-
-  // ** decrease the item quantity by 1 only ** //
-  const decrease = (item) => {
-    let tempItemsInCart = menuList;
-
-    // ** Search the state itemsInCart[], & set the item quantity to zero ** //
-    for(let i=0; i < tempItemsInCart.length; i++){
-      if(tempItemsInCart[i][0].name === item && tempItemsInCart[i][0].quantity > 1){
-         tempItemsInCart[i][0].quantity -= 1;
-      };
-    };
-
-    //setItemsInCart({menuList: tempItemsInCart});
-    dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
-    localStorage.setItem('items', JSON.stringify(tempItemsInCart));
-  };
-
-  // ** increase the item quantity by 1 only ** //
-  const increase = (item) => {
-    let tempItemsInCart = menuList;
-
-    for(let i=0; i < tempItemsInCart.length; i++){
-      if(tempItemsInCart[i][0].name === item){
-         tempItemsInCart[i][0].quantity += 1;
-      };
-    };
-    
-    //setItemsInCart({menuList: tempItemsInCart});
-    dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
-    localStorage.setItem('items', JSON.stringify(tempItemsInCart));
- };
-
-  // ** remove item completely regardless of quantity ** //
-  const removeItem = (item) => {
-      let tempItemsInCart = menuList;
-
-      // ** Search the state itemsInCart[], & set the item quantity to zero ** //
-      for(let i=0; i < tempItemsInCart.length; i++){
-        if(tempItemsInCart[i][0].name === item){
-           tempItemsInCart[i][0].quantity = 0;
-        };
-      };
-    
-      //setItemsInCart({menuList: tempItemsInCart});
-     dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
-      localStorage.setItem('items', JSON.stringify(tempItemsInCart));
-  };
-/*
-  const getTotalQuantity = () => {
-     let totalQuantity = 0;
-    
-     for(let i=0; i < menuList.length; i++){
-         if(menuList[i][0].quantity > 0){
-           totalQuantity += menuList[i][0].quantity;
-         }
-     };
-     return totalQuantity;
-  };
-  */
-
-  const getTotalPrice = () => {
-       let totalPrice = 0;
-       let quantities = 0;
-
-       // ** add up total price ** //
-       for(let i=0; i < menuList.length; i++){
-          quantities = menuList[i][0].quantity;
-
-          if(quantities > 0){
-              for( ; quantities > 0; quantities--){
-                totalPrice += menuList[i][0].price;
-              };
-          };
-        };
-        return totalPrice.toFixed(2);
-  };
-
-  const getTaxes = () => {
-      return (getTotalPrice() * 0.0925).toFixed(2);
-  };
+  }, []);
   
-  const getSubtotal = () => {
-      let total = parseFloat(getTotalPrice());
-      return (total + (total * 0.0925)).toFixed(2);
-  };
-
   return (
          <div className={classes.App}>
             <Switch>
                 <Route exact path="/" 
-                          render = {() => <Layout addToCart={addToCart} add={add} />} />
-                          {/*getTotalQuantity={getTotalQuantity}  */}
+                          render = {() => <Layout />} />
                 
                <Route path="/yourCart" render={() => 
-                      <YourCart state={menuList} removeItem={removeItem} 
-                                getTotalPrice={getTotalPrice} getTotalQuantity={getTotalQuantity} 
-                                decrease={decrease} increase={increase} getTaxes={getTaxes} 
-                                getSubtotal={getSubtotal} />} />
+                      <YourCart state={reduxMenuList} />} />
                                                          
-               
                <Route path="/checkout" render={() => <Checkout />} />
                <Route path="/AboutUs" render={() => <AboutUs />} />
-               <Route path="/memberRewards" render={() => <MemberRewards state={menuList}/>} />
-               <Route path="/Orders" render={() => <Orders state={menuList}/>} />
-               <Route path="/Profile" render={() => <Profile state={menuList}/>} />
+               <Route path="/memberRewards" render={() => <MemberRewards state={reduxMenuList}/>} />
+               <Route path="/Orders" render={() => <Orders state={reduxMenuList}/>} />
+               <Route path="/Profile" render={() => <Profile state={reduxMenuList}/>} />
 
                <Route path="/reviewOrder" render={() => 
-                      <ReviewOrder state={menuList} getTotalPrice={getTotalPrice}
-                                                    getTaxes={getTaxes}  getSubtotal={getSubtotal} />} />
+                      <ReviewOrder state={reduxMenuList} />} />
                <Route path="/placeYourOrder" render={() => 
-                      <PlaceYourOrder getSubtotal={getSubtotal()} /> } />
+                      <PlaceYourOrder /> } />
 
-               <Route path="/createAccount" render={() => <CreateAccount login={() => this.login()} />} />
-               <Route path="/signIn" render={() => <SignIn login={() => this.login()} />} />
+               <Route path="/createAccount" render={() => <CreateAccount />} />
+               <Route path="/signIn" render={() => <SignIn />} />
             </Switch>
          </div>
     );

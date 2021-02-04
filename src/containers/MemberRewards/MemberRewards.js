@@ -12,69 +12,13 @@ import styles from './MemberRewards.module.scss';
 import RequestError from '../../components/Alerts/RequestError/RequestError';
 import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 
-
 class MemberRewards extends Component{
-
-    componentDidMount(){
-        //console.log("from memberReward XXX >>>", this.props.userInfo)
-        //this.getProfile()
-    }
-
-    componentDidUpdate(){
-        //console.log("from memberReward Update >>>")
-    }
-  
-    /*
-    state = {
-
-          firstName: '',
-        lastName: '',
-        phone: '',
-        email: '',
-        rewardPoints: this.props.userInfo.rewardPoints,
-
-        requestError: false,
-        errorMessage: ''
-    }
-    */
-
-    /*
-       resetRequestError = () => {
-        this.setState({requestError: false})
-    }
-    
-
-    getProfile = () => {
-        this.setState({
-            firstName: this.props.userInfo.firstName,
-            lastName: this.props.userInfo.lastName,
-            phone: this.props.userInfo.phone,
-            email: this.props.userInfo.email,
-            rewardPoints: this.props.userInfo.rewardPoints
-        })
-    }
-    */
-
     render(){
         let Contents = null;
-        /*
-        let Contents = null;
-        let requestError;
-
-        if(this.state.requestError){
-            requestError = (
-                <div className={`d-flex justify-content-center`}>
-                    <Backdrop />
-                    <RequestError resetRequestError={this.resetRequestError} errorMessage={this.state.errorMessage} />
-                </div>
-            )
-        }
-        */
-
+        
         if(localStorage.getItem('token') !== null){
             Contents = (
             <div className={`${styles.MemberRewards}`}>
-                {/*requestError*/}
                 <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                     <button className={`${styles.iconColor} navbar-toggler border`} type="button" data-toggle="collapse" data-target="#navbarNav">
                         <span className={"fa fa-bars"}></span>
@@ -91,7 +35,7 @@ class MemberRewards extends Component{
                 <div className="bg-background container col-10 mb-3">
                     <h1 className="text-center mt-3 pt-4">Points</h1>
                     <div className="col-8 col-sm-6 col-md-4 col-lg-3 border border-danger borderPoint m-auto p-3">
-                        <h2 className="text-center font-weight-bold">{this.props.userInfo.rewardPoints}</h2>
+                        <h2 className="text-center font-weight-bold">{this.props.reduxUserInfo.rewardPoints}</h2>
                     </div>
                     <div className={`${styles.redeemSection}`}>
                         <div >USE YOUR POINTS</div>
@@ -154,7 +98,7 @@ class MemberRewards extends Component{
 
 const mapStateToProps = state => {
     return {
-        userInfo: state
+        reduxUserInfo: state
     }
 }
 

@@ -9,7 +9,6 @@ import RequestError from '../../components/Alerts/RequestError/RequestError';
 import Backdrop from '../../components/Alerts/Backdrop/Backdrop';
 
 class Profile extends Component{
-
     render(){
         let Contents = null;
 
@@ -41,11 +40,11 @@ class Profile extends Component{
                         <div className="col-10 col-sm-8 col-md-6 col-lg-4 bg-background m-auto container d-flex flex-column align-items-center">
                             <div className="title pt-4 pb-4">PROFILE</div>
                             <div className="d-flex flex-column">
-                                <div className={`${styles.description}`}>First Name:<span>{this.props.userInfo.firstName}</span></div>
-                                <div className={`${styles.description}`}>Last Name:<span>{this.props.userInfo.lastName}</span></div>
-                                <div className={`${styles.description}`}>Email:<span>{this.props.userInfo.email}</span></div>
-                                <div className={`${styles.description}`}>Phone:<span>{this.props.userInfo.phone}</span></div>
-                                <div className={`${styles.description} pb-4`}>Reward Points:<span>{this.props.userInfo.rewardPoints}</span></div>
+                                <div className={`${styles.description}`}>First Name:<span>{this.props.reduxUserInfo.firstName}</span></div>
+                                <div className={`${styles.description}`}>Last Name:<span>{this.props.reduxUserInfo.lastName}</span></div>
+                                <div className={`${styles.description}`}>Email:<span>{this.props.reduxUserInfo.email}</span></div>
+                                <div className={`${styles.description}`}>Phone:<span>{this.props.reduxUserInfo.phone}</span></div>
+                                <div className={`${styles.description} pb-4`}>Reward Points:<span>{this.props.reduxUserInfo.rewardPoints}</span></div>
                             </div>
                         </div>
                     </div>
@@ -66,7 +65,7 @@ class Profile extends Component{
 
 const mapStateToProps = state => {
     return {
-        userInfo: state
+        reduxUserInfo: state
     }
 }
 

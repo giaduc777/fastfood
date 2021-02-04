@@ -44,7 +44,7 @@ const slideItemContainer = props => {
         <div className={classes.SlideItemContainer}>
             <DailyDeal dailyDeal={dailyDeal} 
               dailyDescription={dailyDescription} descriptionName={"dailyDescription"} 
-              addToCart={props.addToCart} name={'dailyDeal'}>
+              name={'dailyDeal'}>
             </DailyDeal>
 
             <HappyHours happyHours={happyHours} 

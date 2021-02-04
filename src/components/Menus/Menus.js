@@ -26,7 +26,7 @@ const menus = props => {
                 <h1 className={`${styles.title}`}>Daily Menu</h1>
                 
                 {menuArray.map((v, i) => {
-                    return <Menu menu={v} key={i}  id={props.menuDescription[i].id} add={props.add} />
+                    return <Menu menu={v} key={i}  id={props.menuDescription[i].id} /> 
                 })}
             </div>
             

@@ -175,10 +175,6 @@ class CreateAccount extends React.Component<Props & RouteComponentProps> {
     };
 };
 
-interface Interfacestate {
-    firstName: string
-}
-
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         initUser: (payload: any) => dispatch({type: "INIT_USER", payload: payload}),
@@ -186,13 +182,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     }
 }
 
-const mapStateToProps = (state: Interfacestate) =>{
-    return {
-        firstName: state.firstName
-    }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateAccount));
+export default withRouter(connect(null, mapDispatchToProps)(CreateAccount));
 
 
 

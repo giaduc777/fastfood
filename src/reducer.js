@@ -1,4 +1,4 @@
-import {MenuList} from './MenuList';
+import { MenuList } from './MenuList';
 
 const initialState = {
     email: "",
@@ -9,7 +9,8 @@ const initialState = {
     rewardPoints: "",
     login: false,
     totalQuantity: 0,
-    reduxMenuList: MenuList.menuList
+    subTotal: 0,
+    menuList: MenuList.menuList
 }
 
 const reducer = (state = initialState, action) => {
@@ -25,16 +26,10 @@ const reducer = (state = initialState, action) => {
             rewardPoints: action.payload.rewardPoints,
         }
     }
-    else if(action.type === "RESET_MENU_LIST"){
-        return {
-            ...state,
-            reduxMenuList: action.payload.itemsReset
-        }
-    }
     else if(action.type === "SET_MENU_LIST"){
         return {
             ...state,
-            reduxMenuList: action.payload
+            menuList: action.payload
         }
     }
     else if(action.type === "SET_LOGIN"){
@@ -69,14 +64,24 @@ const reducer = (state = initialState, action) => {
         }
     }
     else if(action.type === "SET_TOTAL_QUANTITY"){
-        console.log("from polo reducer>>>>", action.value)
         return{
             ...state,
             totalQuantity: action.value
         }
     }
-
-
+    else if(action.type === "INCREASE_QUANTITY"){
+        return{
+            ...state,
+            totalQuantity: action.value
+        }
+    }
+    else if(action.type === "SET_SUBTOTAL"){
+        return{
+            ...state,
+            subTotal: action.value
+        }
+    }
+    
     return state;
 }
 
