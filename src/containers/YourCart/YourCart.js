@@ -2,17 +2,13 @@ import React, { Component } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getOrders } from '../../Functions/getOrders';
-import { decrease } from '../../Functions/decrease';
-import { increase } from '../../Functions/increase';
-import { getTotalQuantity } from '../../Functions/getTotalQuantity';
-import { removeItem } from '../../Functions/removeItem';
 import styles from './YourCart.module.scss';
 import Top from './Top/Top';
 import Bottom from './Bottom/Bottom';
+import functions from '../../Functions/Functions';
 
 export const YourCart = () => {
-    
+       
         const dispatch = useDispatch();
         const state = useSelector(state => state);
         
@@ -21,7 +17,7 @@ export const YourCart = () => {
         let reduxMenuList = state.menuList
    
         const callDecrease = (item) => {
-            const tempItemsInCart = decrease(item, reduxMenuList);
+            const tempItemsInCart = functions.decrease(item, reduxMenuList);
 
             if(tempItemsInCart){
                 dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
@@ -34,7 +30,7 @@ export const YourCart = () => {
 
         const callIncrease = (item) => {
             console.log("call inc.....", item)
-            const tempItemsInCart = increase(item, reduxMenuList);
+            const tempItemsInCart = functions.increase(item, reduxMenuList);
 
             if(tempItemsInCart){
                 dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
@@ -43,10 +39,10 @@ export const YourCart = () => {
         };
 
         const callRemoveItem = (item) => {
-            const tempItemsInCart = removeItem(item, reduxMenuList);
+            const tempItemsInCart = functions.removeItem(item, reduxMenuList);
 
             if(tempItemsInCart){
-                let totalQuantity = getTotalQuantity(tempItemsInCart);
+                let totalQuantity = functions.getTotalQuantity(tempItemsInCart);
                 dispatch({type: "SET_TOTAL_QUANTITY", value: totalQuantity});
                 dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
             }
@@ -54,7 +50,7 @@ export const YourCart = () => {
 
         let items = [];
         let Cart;
-        let orders = getOrders();
+        let orders = functions.getOrders()
 
         let checkOut = (
              <div className={`${styles.YourCart_checkOut}`}>
