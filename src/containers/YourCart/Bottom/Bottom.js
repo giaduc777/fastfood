@@ -6,9 +6,11 @@ import { getSubtotal } from '../../../Functions/getSubtotal';
 const bottom = (props) => {
     return (
         <div>
+            {/* List of items in cart */}
             {props.items}
             <div>
                 <hr></hr>
+                {/* CheckoutSection component */}
                 {props.children}
                 <div className="col-sm-8 col-md-7 col-lg-4 m-auto">
                     <div className="border pb-3 mt-3 mb-3">

@@ -12,7 +12,8 @@ class sideMenu extends Component{
         const itemsReset = resetItemsInCart(this.props.reduxMenuList);
         this.props.resetMenuList(itemsReset);
         this.props.resetLogin();
-
+        this.props.setTotalQuantity();
+        
         // ** from Layout.js ** //
         this.props.closeSideMenu();
         this.props.history.push('/'); 
@@ -65,6 +66,7 @@ const mapDispatchToProps = dispatch => {
     return{
         resetUser: () => dispatch({type: 'RESET_USER'}),
         resetLogin: () => dispatch({type: "RESET_LOGIN"}),
+        setTotalQuantity: () => dispatch({type: "SET_TOTAL_QUANTITY", value: 0}),
         resetMenuList: (itemsReset) => dispatch({type: "RESET_MENU_LIST", payload: itemsReset})
     }
 }
