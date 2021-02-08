@@ -8,7 +8,6 @@ class Deal extends Component{
 
     callAddToCart = () => {
         const tempItemsInCart = addToCart(this.props, this.props.reduxMenuList);
-
         if(tempItemsInCart){
             this.props.setMenuList(tempItemsInCart);
             this.props.setTotalQuantity(this.props.reduxTotalQuantity);
