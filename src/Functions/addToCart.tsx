@@ -1,4 +1,4 @@
-type menuListType = {
+type menuList = {
     name: string;
     price: number;
     quantity: number;
@@ -10,7 +10,7 @@ type itemType = {
 }
 
 
-export const addToCart = (item: itemType, menuList: menuListType): menuListType | void => {
+export const addToCart = (item: itemType, menuList: menuList): menuList => {
     for(let i=0; i < menuList.length; i++){
         let tempQuantity = menuList[i][0].quantity;
         
@@ -20,7 +20,8 @@ export const addToCart = (item: itemType, menuList: menuListType): menuListType 
             tempQuantity += 1;
             menuList[i][0].quantity = tempQuantity;
             localStorage.setItem('items', JSON.stringify(menuList));
-            return menuList;
+            break;
         }
     }
+    return menuList;
 };

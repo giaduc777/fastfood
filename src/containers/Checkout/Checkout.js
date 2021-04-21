@@ -1,11 +1,25 @@
-import React, {Component} from 'react';
+import React , {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
+import { useState, useEffec } from 'react';
 import styles from './Checkout.module.scss';
+import {connect} from 'react-redux';
 
 class Checkout extends Component{
 
-    componentDidMount(){
+    /*
+       useEffect(() => {
+        document.getElementById('credit').addEventListener('click', e => {
+            document.getElementById('paymentInfo').className=`${styles.billing2}`
+        });
+
+        document.getElementById('cash').addEventListener('click', e => {
+            document.getElementById('paymentInfo').className=`${styles.billing}`
+        });
+    }, [])
+
+    */
+    
+          componentDidMount(){
         document.getElementById('credit').addEventListener('click', e => {
             document.getElementById('paymentInfo').className=`${styles.billing2}`
         });
@@ -14,7 +28,7 @@ class Checkout extends Component{
             document.getElementById('paymentInfo').className=`${styles.billing}`
         });
     }
-
+    //////////
     state = {
         firstName: "",
         lastName: "",
@@ -22,14 +36,16 @@ class Checkout extends Component{
         phone: ""
     }
 
+    
     handleChange = (e) => {
-        this.setState({
+        
+         this.setState({
             [e.target.name]: e.target.value
         })
     }
 
-    render(){
-        return(
+        render(){
+            return(
                 <div className={`bg-background mt-5 mb-5 p-0 col-10 col-md-8 col-lg-6 ${styles.CheckOut}`}>
                     <div className="align-self-end genericClasses"><Link to="/"><span className="badge x-button">X</span></Link></div>
                     <div className={`${styles.contact}`}>
@@ -137,7 +153,7 @@ class Checkout extends Component{
                     </div>
                 </div>
         );
-    };
+        }
 }
 
 const mapDispatchToProps = dispatch => {

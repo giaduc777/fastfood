@@ -2,11 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../YourCart.module.scss';
 
-const checkoutSection = (props) => {
+type AppProps = {
+    reduxLogin: boolean
+}
+
+const checkoutSection = (props: AppProps) => {
 
     let checkOutComponent;
 
-    // ** If user is a guess, not login ** //
+    /** If user is a guess, not login */
     if(!props.reduxLogin){
         checkOutComponent = (
             <div className={`${styles.YourCart_checkOut}`}>
@@ -16,7 +20,7 @@ const checkoutSection = (props) => {
             </div>
         );
     }
-    // ** If user is login ** //
+    /** If user is login */
     else(
         checkOutComponent = (
             <div className={`${styles.YourCart_checkOut}`}>

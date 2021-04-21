@@ -4,31 +4,31 @@ import functions from '../../Functions/Functions';
 import Top from './Top/Top';
 import Cart from './Cart/Cart';
 
-export const YourCart = () => {
+export const YourCart = (): JSX.Element => {
 
     type menuList = {
         name: string;
         price: number;
         quantity: number;
         picture: any;
-    }[][]
-
+    }[][];
+    
     interface RootState {
         login: boolean;
         totalQuantity: number,
         menuList: menuList
     }
-       
-    // ** Hook to redux-store ** //
+
+    /** Hook to redux-store */
     const dispatch = useDispatch();
     const state = useSelector( (state: RootState) => state);
     
-    // ** Redux-state ** //
+    /** Redux-state */
     let reduxLogin = state.login;
     let reduxTotalQuantity = state.totalQuantity;
     let reduxMenuList = state.menuList;
 
-    // ** Decrease quantity by 1 ** //
+    /** Decrease quantity by 1 */
     const callDecrease = (item: string): void => {
         const tempItemsInCart = functions.decrease(item, reduxMenuList);
 
@@ -41,20 +41,17 @@ export const YourCart = () => {
         }
     };
 
-    // ** Increase quantity by 1 ** //
+    /** Increase quantity by 1 */
     const callIncrease = (item: string): void => {
-        const tempItemsInCart = functions.increase(item, reduxMenuList);
-
-        if(tempItemsInCart){
+            const tempItemsInCart = functions.increase(item, reduxMenuList);
             dispatch({type: "SET_MENU_LIST", payload: tempItemsInCart});
             dispatch({type: "SET_TOTAL_QUANTITY", value: (reduxTotalQuantity + 1)});
-        }
     };
    
-    // ** Remove the whole item ** //
+    /** Remove the whole item */
     const callRemoveItem = (item: string): void => {
         const tempItemsInCart = functions.removeItem(item, reduxMenuList);
-
+    
         if(tempItemsInCart){
             let totalQuantity = functions.getTotalQuantity(tempItemsInCart);
             dispatch({type: "SET_TOTAL_QUANTITY", value: totalQuantity});
@@ -62,17 +59,17 @@ export const YourCart = () => {
         }
     };
 
-    let items = [];
+    let items: JSX.Element[] = [];
     let orders = functions.getOrders();
-
-    // ** If there's at least 1 item in cart ** //
-    if(orders !== undefined && Object.keys(orders).length !== 0){
+    
+    /** If there's at least 1 item in cart */
+    if(Object.keys(orders).length !== 0){
         for(let i=0; i < Object.keys(orders).length; i++){   
             items.push(
-                <Top key={i} orders={orders[i]} 
-                     callDecrease={() => callDecrease(orders![i].name)} 
-                     callIncrease={() => callIncrease(orders![i].name)} 
-                     callRemoveItem={() => callRemoveItem(orders![i].name)} />
+                <Top key={i} id={i} menuList={orders} quantity={orders[i][0].quantity} 
+                     callDecrease={() => callDecrease(orders![i][0].name)} 
+                     callIncrease={() => callIncrease(orders![i][0].name)} 
+                     callRemoveItem={() => callRemoveItem(orders![i][0].name)} />
             );
         };
     }

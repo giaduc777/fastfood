@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 const Guess = require('./server/models/Guess');
 const authen = require('./server/authen');
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 8000
 require('./server/mongoose');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

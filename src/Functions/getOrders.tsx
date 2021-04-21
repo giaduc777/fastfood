@@ -1,25 +1,30 @@
-
-export const getOrders = (): {} | void => {
-    let orders={};
-    let ordersArray = [];
-
-type localStorageItemsQuantity = {
-  quantity: number
+type menuList = {
+   name: string,
+   price: number,
+   picture: any,
+   quantity: number
 }[][];
+
+export const getOrders = (): menuList => {
+    let orders: menuList;
+    let ordersArray: menuList = [];
  
-    // ** You have to get the items from local storage, or else when ** //
-    // ** placeYourOrder.js do a items reset, 'orders' will also be set to zero ** //
-    const localStorageItems: localStorageItemsQuantity = JSON.parse(localStorage.getItem('items')!)
-    
+    const localStorageItems: menuList = JSON.parse(localStorage.getItem('items')!)
+
     if(localStorageItems !== null){
-          // ** go through the whole itemsInCart & get items that ** //
-          // ** has quantity larger than 1 & put it in orders={} ** //
+      let itemLocation = 0;
+          /** go through the whole itemsInCart & get items that */
+          /** has quantity larger than 1 & put it in orders={} */
           for(let i=0; i < localStorageItems.length; i++){
             if(localStorageItems[i][0].quantity > 0){
-              ordersArray.push(localStorageItems[i][0])
+              ordersArray[itemLocation] = localStorageItems[i];
+              itemLocation++;
             }
           }
-          orders = {...ordersArray}
+          orders = ordersArray.concat();
           return orders;
     }
+
+    /** no items in local storage, return empty array */
+    return ordersArray;
 };

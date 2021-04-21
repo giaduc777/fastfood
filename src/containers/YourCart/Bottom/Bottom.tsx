@@ -3,7 +3,21 @@ import { getTotalPrice } from '../../../Functions/getTotalPrice';
 import { getTaxes } from '../../../Functions/getTaxes';
 import { getSubtotal } from '../../../Functions/getSubtotal';
 
-const bottom = (props) => {
+type menuList = {
+    name: string,
+    price: number,
+    picture: any,
+    quantity: number
+}[][];
+
+type AppProps = {
+    reduxTotalQuantity: number,
+    items: JSX.Element[],
+    children: JSX.Element
+    reduxMenuList: menuList
+}
+
+const bottom = (props: AppProps) => {
     return (
         <div>
             {/* List of items in cart */}
