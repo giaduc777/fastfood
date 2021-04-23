@@ -4,7 +4,7 @@ import functions from '../../Functions/Functions';
 import Top from './Top/Top';
 import Cart from './Cart/Cart';
 
-export const YourCart = (): JSX.Element => {
+const yourCart = (): JSX.Element => {
 
     type menuList = {
         name: string;
@@ -84,6 +84,8 @@ export const YourCart = (): JSX.Element => {
         </div>
     );
 };
+
+export default yourCart;
 
 
  

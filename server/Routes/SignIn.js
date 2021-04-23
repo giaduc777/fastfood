@@ -7,7 +7,7 @@ module.exports = (app) => {
         
         try{
            const user = await User.findOne({'email': req.body.email});
-           
+           console.log("from backend: >>>", user)
            if(user === null){
                res.send(false)
            }

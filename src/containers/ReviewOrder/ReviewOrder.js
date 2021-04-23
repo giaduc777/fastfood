@@ -14,7 +14,7 @@ import functions from '../../Functions/Functions';
 import useReactRouter from 'use-react-router';
 import {useState} from 'react';
 
-export const ReviewOrder = () => {
+const reviewOrder = () => {
     const [spinCirState, setSpinCirState] = useState(false);
     const { history, location, match } = useReactRouter();
     const dispatch = useDispatch();
@@ -172,5 +172,7 @@ export const ReviewOrder = () => {
             </div>
         </div>
     )
-}
+};
+
+export default reviewOrder;
 

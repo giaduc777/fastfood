@@ -9,14 +9,14 @@ import {connect} from 'react-redux';
 import {ADDRESS} from './herokuProxy';
 
 import Layout from './containers/Layout/Layout';
-import { YourCart } from './containers/YourCart/YourCart';
+import YourCart from './containers/YourCart/YourCart';
 import Checkout from './containers/Checkout/Checkout';
 import AboutUs from './containers/AboutUs/AboutUs';
 import SignIn from './containers/SignIn/SignIn';
 import MemberRewards from './containers/MemberRewards/MemberRewards';
 import Orders from './containers/Orders/Orders';
 import Profile from './containers/Profile/Profile';
-import {ReviewOrder} from './containers/ReviewOrder/ReviewOrder';
+import ReviewOrder from './containers/ReviewOrder/ReviewOrder';
 import PlaceYourOrder from './containers/PlaceYourOrder/PlaceYourOrder';
 import CreateAccount from './containers/CreateAccount/CreateAccount';
 
