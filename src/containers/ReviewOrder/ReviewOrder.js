@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import Axios from 'axios';
@@ -12,7 +12,6 @@ import { resetItemsInCart } from '../../Functions/resetItemsInCart';
 import SpinningCircle from '../../components/SpinningCircle/SpinningCircle';
 import functions from '../../Functions/Functions'; 
 import useReactRouter from 'use-react-router';
-import {useState} from 'react';
 
 const reviewOrder = () => {
     const [spinCirState, setSpinCirState] = useState(false);

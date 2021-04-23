@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import {useState} from 'react';
 import useReactRouter from 'use-react-router';
 import {ADDRESS} from '../../herokuProxy';
 import styles from './SignIn.module.scss';
