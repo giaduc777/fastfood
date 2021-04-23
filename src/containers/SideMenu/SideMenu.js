@@ -50,7 +50,7 @@ const sideMenu = (props) => {
                     {signUp}
                     {login}
                     <Link className="nav-link text-white pl-0" to="/yourCart">Your Cart</Link>
-                    {props.reduxLogin ? <Link className="nav-link text-white pl-0" to="/memberRewards">Member Zone</Link> : null}
+                    {reduxLogin ? <Link className="nav-link text-white pl-0" to="/memberRewards">Member Zone</Link> : null}
                     <Link className="nav-link text-white pl-0" to="/AboutUs">About Us</Link>
                 </ul>
             </div>
